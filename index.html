@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prifinance — Estonia Sales Script</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2128;
+    --border: #2a2d35;
+    --accent: #4f8ef7;
+    --accent2: #e8c547;
+    --client: #3ecf8e;
+    --you: #4f8ef7;
+    --note: #8b919e;
+    --text: #e4e6eb;
+    --text-dim: #8b919e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* META ROW */
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .meta-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-client { background: var(--client); }
+  .dot-you { background: var(--you); }
+  .dot-note { background: var(--accent2); }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* DIALOGUE */
+  .dialogue {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .line {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    align-items: start;
+    transition: background 0.15s;
+  }
+
+  .line:hover { background: var(--surface); }
+
+  .line.you { border-left: 2px solid var(--you); }
+  .line.client { border-left: 2px solid var(--client); }
+  .line.note-line { border-left: 2px solid var(--accent2); background: rgba(232,197,71,0.05); }
+
+  .speaker {
+    font-size: 10px;
+    font-weight: 400;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+
+  .speaker.you-label { color: var(--you); }
+  .speaker.client-label { color: var(--client); }
+  .speaker.note-label { color: var(--accent2); font-style: italic; }
+
+  .text { color: var(--text); font-size: 14px; }
+  .line.note-line .text { color: var(--accent2); font-size: 12px; font-style: italic; }
+
+  /* HIGHLIGHT within text */
+  .hl {
+    background: rgba(79,142,247,0.15);
+    color: #7fb3ff;
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hl-g {
+    background: rgba(62,207,142,0.12);
+    color: #6de0b0;
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  /* COLLOCATION BOX */
+  .collocations {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-top: 8px;
+  }
+
+  .coll-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .coll-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .coll-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .coll-phrase {
+    color: var(--accent2);
+    font-weight: 400;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .coll-ru {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  .coll-example {
+    color: var(--note);
+    font-size: 11px;
+    margin-top: 5px;
+    border-top: 1px solid var(--border);
+    padding-top: 5px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  /* PHASE BADGE */
+  .phase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .phase-num {
+    background: var(--accent);
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  /* CONTEXT BOX */
+  .context-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .context-box strong { color: var(--accent2); }
+
+  @media (max-width: 600px) {
+    .line { grid-template-columns: 60px 1fr; gap: 10px; }
+    h1 { font-size: 22px; }
+    .coll-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="badge">Prifinance · Sales Script</div>
+    <h1>Estonia → Alternative pitch<br>Full client conversation</h1>
+    <div class="subtitle">B2 English · Real use + language learning · IT/Consulting profile</div>
+    <div class="meta-row">
+      <div class="meta-item"><div class="meta-dot dot-you"></div>You (Sales)</div>
+      <div class="meta-item"><div class="meta-dot dot-client"></div>Client</div>
+      <div class="meta-item"><div class="meta-dot dot-note"></div>Sales note / tip</div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 1 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 1 — Opening & rapport</div>
+
+    <div class="context-box">
+      <strong>Situation:</strong> Client reached out via website or referral. Said they want to open a company in Estonia. First call, ~30–40 min. Your goal: understand their real need before presenting anything.
+    </div>
+
+    <div class="dialogue">
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Hey [Name], thanks for reaching out. I saw your message — you're looking at Estonia, right? Before we get into the details, I'd love to <span class="hl">get a better picture</span> of what you're working on. Do you have a few minutes?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Yeah sure, I've got time. Basically I run a small IT consultancy, mostly working with clients in Germany and the Netherlands. Someone told me Estonia is good for taxes, so I wanted to look into it.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Got it. And are you currently operating through a company somewhere, or are you working as an individual right now?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Individual, yeah. I'm based in Ukraine, so everything just goes to my personal account. It's getting complicated.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Understood. And when you say complicated — is it more about the tax side, or about how your clients pay you, or both?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Honestly both. A couple of German clients asked for invoices from a proper company. And I'm tired of paying high personal income tax on everything.</span>
+      </div>
+
+      <div class="line note-line">
+        <span class="speaker note-label">Note</span>
+        <span class="text">Two clear pain points identified: invoicing/legitimacy + tax optimization. Now you can position Estonia directly against both.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 2 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 2 — Qualifying questions</div>
+
+    <div class="dialogue">
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Makes sense. A few more questions so I can <span class="hl">point you in the right direction</span>. What's your rough monthly revenue — just a ballpark is fine?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Around €8,000–12,000 a month. Depends on the projects.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Good. And are you planning to <span class="hl">reinvest most of that</span> back into the business, or do you need to pull it out as personal income regularly?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">I need some for living, but a big chunk stays in the business. I'm trying to grow it, maybe hire someone next year.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Perfect, that's actually very relevant. One more — do you have any plans to relocate, or are you fine staying where you are and just having a foreign company?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">No plans to move right now. I just want a clean structure for the business.</span>
+      </div>
+
+      <div class="line note-line">
+        <span class="speaker note-label">Note</span>
+        <span class="text">Profile confirmed: IT services, EU clients, high reinvestment, no relocation. Estonia is the primary fit. Slovakia as backup if he wants a local bank account.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 3 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 3 — Estonia presentation</div>
+
+    <div class="dialogue">
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Alright, so based on what you told me — Estonia <span class="hl">makes a lot of sense</span> for your situation, and I'll explain exactly why.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">The company type is called OÜ — think of it as a standard limited company. One of the biggest advantages is the tax model. In Estonia, <span class="hl">you only pay corporate tax when you distribute dividends</span>. As long as the profit stays inside the company — zero tax. Nothing.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Wait, so if I leave money in the company I pay nothing?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Exactly. You can accumulate, reinvest, pay your suppliers — all of that is tax-free. The moment you <span class="hl">decide to take out dividends</span>, that's when the 22% kicks in. But if you're growing and reinvesting — that money works for you, not for the tax office.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">That sounds almost too good. Is there a catch?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Good question — and I'd rather <span class="hl">be upfront about</span> the nuances than oversell it. The one thing to keep in mind is substance. Estonia is not an offshore. If the tax authority in your home country looks at your situation, they want to see that the company has real business activity — invoices going out, a bank account, accounting in order. Which for someone in your position, it's all very natural. You're doing real work, right?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Yeah, of course. I have real contracts with real clients.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Then you're in good shape. Now, registration itself — <span class="hl">it's fully remote</span>. We handle everything through a power of attorney, so you don't need to fly to Estonia. <span class="hl">The whole process takes</span> about 3 to 5 business days once we have your documents.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">And for the bank account — this is where a lot of people get confused. Local Estonian banks like LHV or SEB are very selective. They want to see real ties to Estonia, which most of our clients don't have. So what we do instead is <span class="hl-g">set up an account</span> with Montify — it's our main banking partner, FCA-licensed in the UK. You get a real IBAN, SEPA transfers, multi-currency. Your German clients can pay you just like they would any other European company.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">And that's accepted? Like a normal bank?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">For 90% of B2B operations — yes, completely. It's not a traditional bank in the sense that it doesn't give out loans, but for sending and receiving payments, invoicing, payroll — it works exactly the same. We actually use Montify ourselves as a company, which tells you something.</span>
+      </div>
+
+      <div class="line note-line">
+        <span class="speaker note-label">Note</span>
+        <span class="text">"We use it ourselves" — social proof that doesn't feel forced. Use it naturally when it fits.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 4 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 4 — Handling objection + pricing</div>
+
+    <div class="dialogue">
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Okay. And what does all of this cost?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">So let me <span class="hl">break it down</span> for you. The company registration is €900. Because we're doing it remotely via power of attorney, that adds €500 — covers the notary and translations. Then the legal address is €375 per month. And the Montify account is a one-time €1,900.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">On top of that, accounting is €110 a month — that includes your monthly reporting and we charge one extra month for the annual report. So <span class="hl">your initial investment</span> to get everything up and running is roughly €3,800, and then around €485 a month ongoing.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Hmm. That's more than I expected honestly.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">I hear you. Let me put it in context though. You mentioned you're earning around €10k a month. If even 60% of that stays in the company as profit — that's €6,000 that in most jurisdictions would be taxed at 20–30%. In Estonia, that's zero until you choose to take it out. Over a year, we're <span class="hl">talking about</span> €15,000 to €20,000 in deferred tax. The structure <span class="hl">pays for itself</span> in the first two months.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Yeah, when you put it that way… okay. And what about VAT? My German clients sometimes ask about it.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Good that you bring that up. If you're providing B2B services to clients in Germany — meaning they're companies, not individuals — the reverse charge mechanism applies. You don't charge VAT, they handle it on their end. So for your current setup, you likely don't need a VAT number right away. But if at some point you <span class="hl">start working with</span> end consumers or need it for platform compliance, we <span class="hl">can take care of</span> that for €600.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 5 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 5 — Alternative: Slovakia</div>
+
+    <div class="context-box">
+      <strong>When to offer Slovakia:</strong> Client wants a traditional bank account, needs EU credibility with local banking, or is considering relocation to the EU.
+    </div>
+
+    <div class="dialogue">
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Actually, since you mentioned your clients are asking for proper invoices — let me also <span class="hl">walk you through</span> one alternative that might be worth considering. It's Slovakia.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Slovakia? What's different there?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">So the main difference is the banking. With Slovakia, we can <span class="hl-g">open an account</span> in a real local bank — PKO Bank — and we can do it remotely, without you flying there. That's actually quite rare in Europe. Most local banks require a personal visit.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Now, the tax model is different — it's a flat 21% on profit, so not as aggressive as Estonia. But some clients prefer having a traditional bank behind their company name. Especially if they're <span class="hl">dealing with</span> larger corporate clients who do strict due diligence.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">And there's no tax advantage like Estonia?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Correct, the tax model is more standard. But Slovakia has one more thing going for it — if you ever <span class="hl">decide to relocate</span> to the EU, we can <span class="hl-g">apply for</span> a business residence permit through the Slovakian consulate in your country. You don't even need to travel there for the first stage. So it's a two-in-one: a solid EU company today, and a potential path to EU residency if you need it later.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Interesting. I'm not planning to move now but that's good to know.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Exactly. <span class="hl">The way I see it</span> — if your priority right now is tax efficiency and you're fine with an EMI account, Estonia is the cleaner, cheaper option. If you want a real bank account from day one and you're willing to pay a bit more, Slovakia <span class="hl">makes more sense</span>. Both are fully remote, both are EU.</span>
+      </div>
+
+      <div class="line note-line">
+        <span class="speaker note-label">Note</span>
+        <span class="text">Always give the client a clear framework to decide. Don't leave it open-ended — guide them to the choice that fits their stated priority.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 6 ==================== -->
+  <div class="section">
+    <div class="section-title">Phase 6 — Closing</div>
+
+    <div class="dialogue">
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">So based on everything you've told me — IT services, EU clients, reinvesting most of your profit — I'd <span class="hl">lean towards</span> Estonia as the primary recommendation. Does that <span class="hl">align with</span> what you had in mind?</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Yeah, Estonia feels right. What are the next steps?</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Great. I'll <span class="hl">send over</span> a detailed proposal by end of day — it'll include the full breakdown, timeline, and what documents we need from you. Basically just a passport copy and proof of address to get started. Once you confirm, we can <span class="hl">get the ball rolling</span> within 24 hours.</span>
+      </div>
+
+      <div class="line client">
+        <span class="speaker client-label">Client</span>
+        <span class="text">Sounds good. Looking forward to it.</span>
+      </div>
+
+      <div class="line you">
+        <span class="speaker you-label">You</span>
+        <span class="text">Perfect. I'll also include a short note on the accounting requirements so you know exactly what to expect. Talk soon.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ==================== COLLOCATIONS ==================== -->
+  <div class="section">
+    <div class="section-title">Key collocations from this script</div>
+
+    <div class="collocations">
+      <div class="coll-title">Learn as fixed units — don't translate word by word</div>
+      <div class="coll-grid">
+
+        <div class="coll-item">
+          <div class="coll-phrase">get a better picture of</div>
+          <div class="coll-ru">лучше понять / разобраться в ситуации</div>
+          <div class="coll-example">I'd love to get a better picture of what you're working on.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">point you in the right direction</div>
+          <div class="coll-ru">направить в нужную сторону / помочь разобраться</div>
+          <div class="coll-example">A few questions so I can point you in the right direction.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">be upfront about</div>
+          <div class="coll-ru">быть честным / открыто говорить о чём-то</div>
+          <div class="coll-example">I'd rather be upfront about the nuances than oversell it.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">break it down for you</div>
+          <div class="coll-ru">разложить по полочкам / объяснить по частям</div>
+          <div class="coll-example">Let me break it down for you.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">pays for itself</div>
+          <div class="coll-ru">окупается само</div>
+          <div class="coll-example">The structure pays for itself in the first two months.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">walk you through</div>
+          <div class="coll-ru">провести через / объяснить шаг за шагом</div>
+          <div class="coll-example">Let me walk you through one alternative.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">lean towards</div>
+          <div class="coll-ru">склоняться к / больше рекомендовать</div>
+          <div class="coll-example">I'd lean towards Estonia as the primary recommendation.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">get the ball rolling</div>
+          <div class="coll-ru">запустить процесс / начать двигаться</div>
+          <div class="coll-example">We can get the ball rolling within 24 hours.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">align with</div>
+          <div class="coll-ru">совпадать с / соответствовать</div>
+          <div class="coll-example">Does that align with what you had in mind?</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">makes a lot of sense</div>
+          <div class="coll-ru">имеет смысл / логично подходит</div>
+          <div class="coll-example">Estonia makes a lot of sense for your situation.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">dealing with</div>
+          <div class="coll-ru">работать с / иметь дело с</div>
+          <div class="coll-example">Clients who are dealing with larger corporates.</div>
+        </div>
+
+        <div class="coll-item">
+          <div class="coll-phrase">the way I see it</div>
+          <div class="coll-ru">как я это вижу / по моему мнению</div>
+          <div class="coll-example">The way I see it — Estonia is the cleaner option.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
