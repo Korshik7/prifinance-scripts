@@ -3,621 +3,483 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HK Training — Ahmad Al-Rashidi</title>
+<title>HK Training — Hong Kong</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e0e0e0; line-height: 1.7; }
 
-  .header { background: linear-gradient(135deg, #1a1f2e, #2d1b69); padding: 40px; text-align: center; border-bottom: 2px solid #4a3f8a; }
-  .header h1 { font-size: 28px; color: #c8b8ff; letter-spacing: 1px; }
-  .header p { color: #888; margin-top: 8px; font-size: 14px; }
+  .header { background: linear-gradient(135deg, #1a1f2e, #2d1b69); padding: 36px 40px; text-align: center; border-bottom: 2px solid #4a3f8a; }
+  .header h1 { font-size: 26px; color: #c8b8ff; letter-spacing: 1px; }
+  .header p { color: #888; margin-top: 6px; font-size: 13px; }
 
   .nav { display: flex; background: #161b28; border-bottom: 1px solid #2a2f42; overflow-x: auto; }
-  .nav button { padding: 14px 24px; background: none; border: none; color: #888; cursor: pointer; font-size: 14px; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .nav button { padding: 14px 26px; background: none; border: none; color: #888; cursor: pointer; font-size: 14px; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
   .nav button:hover { color: #c8b8ff; }
   .nav button.active { color: #c8b8ff; border-bottom-color: #7c5cfc; background: #1e2235; }
 
-  .content { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
-
+  .content { max-width: 860px; margin: 0 auto; padding: 30px 20px; }
   .block { display: none; }
   .block.active { display: block; }
 
-  .card { background: #1a1f2e; border: 1px solid #2a2f42; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-  .card h2 { color: #c8b8ff; font-size: 18px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2a2f42; }
-  .card h3 { color: #9d8cff; font-size: 15px; margin: 16px 0 8px; }
+  .card { background: #1a1f2e; border: 1px solid #2a2f42; border-radius: 12px; padding: 24px; margin-bottom: 18px; }
+  .card h2 { color: #c8b8ff; font-size: 17px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #2a2f42; }
+  .card h3 { color: #9d8cff; font-size: 14px; margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* STEP BLOCKS */
+  .step { display: flex; gap: 16px; margin-bottom: 14px; }
+  .step-num { background: #7c5cfc; color: #fff; border-radius: 50%; min-width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; margin-top: 2px; }
+  .step-body { flex: 1; }
+  .step-body .step-title { color: #c8b8ff; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .step-body .step-desc { color: #a0a0b8; font-size: 13px; }
+
+  /* QUALIFICATION BLOCKS */
+  .q-block { background: #141824; border: 1px solid #2a2f42; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .q-block .q-text { color: #e0e0e0; font-size: 14px; font-style: italic; margin-bottom: 8px; }
+  .q-block .q-why { font-size: 12px; color: #7c5cfc; border-left: 2px solid #7c5cfc; padding-left: 8px; }
+
+  /* SPEAK BLOCKS */
+  .speak { background: #1e1e2a; border-left: 3px solid #7c5cfc; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0; color: #c8c0ff; font-size: 14px; }
+  .speak .speak-label { font-size: 10px; color: #7c5cfc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+  .client { background: #1e2a1e; border-left: 3px solid #4caf50; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 10px 0; color: #a0d0a0; font-size: 14px; font-style: italic; }
+
+  /* REQUIREMENTS */
+  .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px){ .req-grid { grid-template-columns: 1fr; } }
+  .req-item { background: #141824; border: 1px solid #2a2f42; border-radius: 8px; padding: 12px; font-size: 13px; color: #c0c0d0; }
+  .req-item .req-label { font-size: 10px; color: #7c5cfc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+  /* TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item { display: flex; gap: 14px; position: relative; }
+  .tl-item:not(:last-child)::before { content: ''; position: absolute; left: 14px; top: 28px; width: 2px; height: calc(100% - 14px); background: #2a2f42; }
+  .tl-dot { min-width: 30px; height: 30px; border-radius: 50%; background: #1e2438; border: 2px solid #7c5cfc; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #7c5cfc; font-weight: 700; z-index: 1; }
+  .tl-body { padding-bottom: 18px; }
+  .tl-body .tl-title { color: #c8b8ff; font-size: 14px; font-weight: 600; }
+  .tl-body .tl-time { font-size: 12px; color: #80ff9d; margin-bottom: 2px; }
+  .tl-body .tl-desc { font-size: 13px; color: #a0a0b8; }
+
+  /* SCENARIO (collapsible) */
+  .scenario { background: #1a1f2e; border: 1px solid #2a2f42; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+  .sc-header { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .sc-header:hover { background: #1e2438; }
+  .sc-header h3 { color: #c8b8ff; font-size: 14px; font-weight: 500; }
+  .sc-arrow { color: #555; font-size: 11px; transition: transform 0.2s; }
+  .sc-header.open .sc-arrow { transform: rotate(180deg); }
+  .sc-body { display: none; padding: 0 18px 16px; border-top: 1px solid #2a2f42; }
+  .sc-body.open { display: block; }
+
+  .twist { background: #1e1818; border: 1px solid #4a2020; border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+  .twist-label { font-size: 10px; color: #ff7070; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .twist-q { color: #ffaaaa; font-style: italic; font-size: 13px; margin-bottom: 6px; }
+  .twist-a { color: #c8b8b8; font-size: 13px; }
+
+  .tip { background: #1a2a1a; border: 1px solid #2a4a2a; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #88c888; margin: 10px 0; }
+
+  /* PROFILE */
+  .pg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px){ .pg { grid-template-columns: 1fr; } }
+  .pi { background: #141824; border: 1px solid #2a2f42; border-radius: 8px; padding: 12px; }
+  .pi .pl { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+  .pi .pv { color: #e0e0e0; font-size: 14px; }
 
   .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; margin: 3px; }
   .tag.pain { background: #3d1a1a; color: #ff8080; border: 1px solid #5a2a2a; }
   .tag.goal { background: #1a3d2a; color: #80ff9d; border: 1px solid #2a5a3a; }
-  .tag.info { background: #1a2a3d; color: #80c8ff; border: 1px solid #2a3a5a; }
 
-  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media(max-width: 600px) { .profile-grid { grid-template-columns: 1fr; } }
+  ul.list { list-style: none; }
+  ul.list li { padding: 7px 0; border-bottom: 1px solid #1e2235; color: #b0b0c8; font-size: 14px; }
+  ul.list li:before { content: "→ "; color: #7c5cfc; }
+  ul.list li:last-child { border-bottom: none; }
 
-  .profile-item { background: #141824; border: 1px solid #2a2f42; border-radius: 8px; padding: 14px; }
-  .profile-item .label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .profile-item .value { color: #e0e0e0; font-size: 15px; }
-
-  .scenario { background: #1a1f2e; border: 1px solid #2a2f42; border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
-  .scenario-header { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-  .scenario-header:hover { background: #1e2438; }
-  .scenario-header h3 { color: #c8b8ff; font-size: 15px; }
-  .scenario-header .arrow { color: #666; transition: transform 0.2s; font-size: 12px; }
-  .scenario-header.open .arrow { transform: rotate(180deg); }
-  .scenario-body { display: none; padding: 0 20px 20px; border-top: 1px solid #2a2f42; }
-  .scenario-body.open { display: block; }
-
-  .client-says { background: #1e2a1e; border-left: 3px solid #4caf50; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 0; font-style: italic; color: #a0d0a0; }
-  .manager-says { background: #1e1e2a; border-left: 3px solid #7c5cfc; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 12px 0; color: #c8c0ff; }
-  .manager-says strong { color: #9d8cff; display: block; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-
-  .twist { background: #2a1a1a; border: 1px solid #5a2a2a; border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
-  .twist .twist-label { font-size: 11px; color: #ff8080; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  .twist .twist-q { color: #ffb0b0; font-style: italic; margin-bottom: 8px; }
-  .twist .twist-a { color: #d0c0c0; font-size: 14px; }
-
-  .questions-list { list-style: none; }
-  .questions-list li { padding: 8px 0; border-bottom: 1px solid #1e2235; color: #c0c0d0; font-size: 14px; }
-  .questions-list li:before { content: "→ "; color: #7c5cfc; }
-  .questions-list li:last-child { border-bottom: none; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th { background: #1e2438; color: #9d8cff; padding: 10px 14px; text-align: left; }
-  td { padding: 10px 14px; border-bottom: 1px solid #1e2235; color: #c0c0d0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1e2438; color: #9d8cff; padding: 9px 13px; text-align: left; }
+  td { padding: 9px 13px; border-bottom: 1px solid #1e2235; color: #b0b0c8; }
   tr:last-child td { border-bottom: none; }
-  td:last-child { color: #80ff9d; font-weight: 600; }
+  td:last-child { color: #80ff9d; }
 
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .badge.required { background: #3d1a1a; color: #ff8080; }
-  .badge.optional { background: #1a2a1a; color: #80c080; }
-
-  .tip { background: #1e2820; border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-size: 13px; color: #90c090; }
-  .tip:before { content: "💡 "; }
-
-  .closing-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media(max-width: 600px) { .closing-options { grid-template-columns: 1fr; } }
-  .closing-card { background: #141824; border: 1px solid #2a2f42; border-radius: 8px; padding: 16px; }
-  .closing-card h4 { color: #9d8cff; margin-bottom: 8px; font-size: 13px; }
-  .closing-card p { font-size: 13px; color: #c0c0d0; font-style: italic; }
+  .warn { background: #2a1a1a; border: 1px solid #5a2a2a; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #ff9090; margin: 10px 0; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>🇭🇰 Hong Kong — Sales Training</h1>
-  <p>Client: Ahmad Al-Rashidi &nbsp;·&nbsp; Prifinance Internal</p>
+  <p>Client: Ahmad Al-Rashidi &nbsp;·&nbsp; Prifinance Internal Use</p>
 </div>
 
 <div class="nav">
-  <button class="active" onclick="show('profile', this)">👤 Client Profile</button>
-  <button onclick="show('s1', this)">1. Opening</button>
-  <button onclick="show('s2', this)">2. Taxes</button>
-  <button onclick="show('s3', this)">3. Structure</button>
-  <button onclick="show('s4', this)">4. Banking</button>
-  <button onclick="show('s5', this)">5. Accounting</button>
-  <button onclick="show('s6', this)">6. Objections</button>
-  <button onclick="show('s7', this)">7. Closing</button>
-  <button onclick="show('cheatsheet', this)">⚡ Cheat Sheet</button>
+  <button class="active" onclick="show('profile',this)">👤 Client Profile</button>
+  <button onclick="show('script',this)">📞 Call Script</button>
+  <button onclick="show('questions',this)">💬 Potential Questions</button>
+  <button onclick="show('cheat',this)">⚡ Cheat Sheet</button>
 </div>
 
 <div class="content">
 
-  <!-- BLOCK 1: CLIENT PROFILE -->
-  <!-- product card styles -->
+<!-- ===================== CLIENT PROFILE ===================== -->
+<div id="profile" class="block active">
 
-  <div id="profile" class="block active">
-    <div class="card">
-      <h2>👤 Who is Ahmad</h2>
-      <div class="profile-grid">
-        <div class="profile-item"><div class="label">Name</div><div class="value">Ahmad Al-Rashidi</div></div>
-        <div class="profile-item"><div class="label">Age</div><div class="value">38 years old</div></div>
-        <div class="profile-item"><div class="label">Nationality</div><div class="value">🇸🇦 Saudi Arabia</div></div>
-        <div class="profile-item"><div class="label">Residence</div><div class="value">🇦🇪 Dubai, UAE</div></div>
-        <div class="profile-item"><div class="label">Business</div><div class="value">Trading — construction materials</div></div>
-        <div class="profile-item"><div class="label">Annual turnover</div><div class="value">~$800K – $1M</div></div>
-        <div class="profile-item"><div class="label">Structure now</div><div class="value">No company — works as individual</div></div>
-        <div class="profile-item"><div class="label">Partners</div><div class="value">None — sole owner</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>🏭 Business Model</h2>
-      <h3>What he does</h3>
-      <p style="color:#c0c0d0; font-size:14px;">Buys construction materials (rebar, fasteners, tools) from 3 suppliers in China (Guangzhou, Shanghai). Sells to buyers in <strong style="color:#80c8ff">Poland and Germany</strong> (Europe) and <strong style="color:#80c8ff">Saudi Arabia</strong>. Goods go directly from China to buyers — never through Hong Kong.</p>
-
-      <h3>Why he needs a company</h3>
-      <ul class="questions-list">
-        <li>Chinese suppliers refuse to work with individuals — they want a contract with a legal entity</li>
-        <li>European buyers require invoices from a registered company</li>
-        <li>His personal UAE bank account is getting questioned on large China transactions</li>
-        <li>He wants to protect his privacy — doesn't want his name publicly visible</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>😟 Pain Points & Goals</h2>
-      <div style="margin-bottom:12px;">
-        <div class="tag pain">No legal entity</div>
-        <div class="tag pain">Bank account problems</div>
-        <div class="tag pain">Privacy concerns</div>
-        <div class="tag pain">Supplier compliance</div>
-      </div>
-      <div>
-        <div class="tag goal">0% tax on trading profit</div>
-        <div class="tag goal">USD + EUR bank account</div>
-        <div class="tag goal">Issue invoices legally</div>
-        <div class="tag goal">Name not public</div>
-        <div class="tag goal">Fully remote setup</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>🎭 How Ahmad behaves on a call</h2>
-      <ul class="questions-list">
-        <li>Confident speaker but interrupts when he hears an unfamiliar term</li>
-        <li>Asks about price early — doesn't like waiting until the end</li>
-        <li>Will say "too expensive" even if he's ready to pay — he negotiates by habit</li>
-        <li>Trusts specifics and numbers — doesn't respond well to vague answers</li>
-        <li>More interested in banking than company registration — that's his real pain</li>
-        <li>Concerned about legality — will ask "is this 100% legal?" at some point</li>
-        <li>May bring up UAE company as an alternative mid-call</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>🎯 What Ahmad wants by end of call</h2>
-      <ul class="questions-list">
-        <li>A Hong Kong company — under his name or nominee</li>
-        <li>Bank account in USD and EUR</li>
-        <li>Ability to issue invoices to European and Saudi clients</li>
-        <li>0% tax on trading profit</li>
-        <li>Full privacy — name not visible publicly</li>
-        <li>Everything remote — minimum travel</li>
-      </ul>
-      <div class="tip">Ideal close: Company $2,500 + Online bank $1,900 = <strong>$4,400 total, fully remote, ready in 3–4 weeks</strong></div>
-    </div>
-
-    <!-- DIVIDER -->
-    <div style="border-top: 2px solid #2d1b69; margin: 30px 0; padding-top: 10px; text-align:center;">
-      <span style="color:#7c5cfc; font-size:13px; text-transform:uppercase; letter-spacing:2px;">🇭🇰 What We Offer — Hong Kong</span>
-    </div>
-
-    <div class="card">
-      <h2>🏢 Company Structure — Private Limited Company (Ltd)</h2>
-      <p style="color:#c0c0d0; font-size:14px; margin-bottom:16px;">The standard Hong Kong legal entity — globally recognised, simple to set up, no minimum share capital required. One director and one shareholder is enough. Both can be the same person.</p>
-
-      <h3>Registry</h3>
-      <p style="color:#c0c0d0; font-size:14px;">Hong Kong's company registry is <strong style="color:#ff8080">public</strong> — director and shareholder names are visible to anyone. Solution: <strong style="color:#80ff9d">nominee director + nominee shareholder</strong> (both HK residents). Two legal documents protect the real owner:</p>
-      <ul class="questions-list" style="margin-top:8px;">
-        <li><strong>Trust Declaration</strong> — confirms you are the true beneficial owner</li>
-        <li><strong>General Power of Attorney</strong> — gives you full control. Nominee has zero real influence.</li>
-      </ul>
-
-      <h3>Mandatory Company Secretary</h3>
-      <p style="color:#c0c0d0; font-size:14px;"><strong style="color:#ff8080">Required by law</strong> — every HK company must have a local secretary. We provide this. They handle statutory filings only — no access to company operations or accounts.</p>
-
-      <h3>No license needed for trading</h3>
-      <p style="color:#c0c0d0; font-size:14px;">Standard trading, logistics, supply chain — no additional licence required. Licences are only needed for financial services (banking, insurance, crypto funds).</p>
-    </div>
-
-    <div class="card">
-      <h2>💰 Taxation — Territorial System</h2>
-      <p style="color:#c0c0d0; font-size:14px; margin-bottom:16px;">This is the core advantage. Hong Kong only taxes income <strong style="color:#c8b8ff">sourced within Hong Kong</strong>. If your business operates internationally — buying in China, selling to Europe or Saudi Arabia — that profit is <strong style="color:#80ff9d">not taxed in HK at all.</strong></p>
-
-      <ul class="questions-list">
-        <li><strong>0%</strong> — on profit from international operations (offshore income)</li>
-        <li><strong>0%</strong> — on dividends paid to non-residents</li>
-        <li><strong>0%</strong> — VAT does not exist in Hong Kong</li>
-        <li><strong>8.25%</strong> — only if income is sourced inside HK (first HKD 2M)</li>
-        <li><strong>16.5%</strong> — on HK-sourced income above HKD 2M</li>
-      </ul>
-
-      <div class="tip" style="margin-top:14px;">Key rule: goods and money must NOT physically pass through Hong Kong territory. The company acts as a legal intermediary on paper only — contracts and invoices flow through HK, goods go directly China → Europe/Saudi Arabia.</div>
-    </div>
-
-    <div class="card">
-      <h2>🏦 Banking — Three Options</h2>
-
-      <h3>1. Chouzhou Bank (China) — best for China trade</h3>
-      <ul class="questions-list">
-        <li>Accounts in USD, EUR, CNY, RUB — ideal for paying Chinese suppliers in yuan</li>
-        <li>Requires 1–2 day personal visit to China (Shanghai or Harbin)</li>
-        <li>No China visa? — 140-hour visa-free transit or Singapore stopover (96h)</li>
-        <li>Processing time: ~2 months from document submission</li>
-      </ul>
-
-      <h3>2. Hong Kong Online Bank — fastest remote option</h3>
-      <ul class="questions-list">
-        <li>Fully remote — video verification only, no travel needed</li>
-        <li>Opens in ~2 weeks (sometimes 3 business days)</li>
-        <li>Multi-currency, works exactly like a traditional bank</li>
-        <li>No difference in functionality vs. a branch bank</li>
-      </ul>
-
-      <h3>3. EMI — UK-based payment account</h3>
-      <ul class="questions-list">
-        <li>Fully remote, multi-currency</li>
-        <li>UK IBAN — seamlessly accepted across Europe</li>
-        <li>Also supports CNY — useful for European buyers</li>
-        <li>Opens in 1–2 weeks</li>
-      </ul>
-
-      <div style="background:#2a1a1a; border:1px solid #5a2a2a; border-radius:8px; padding:12px 16px; margin-top:14px; font-size:13px; color:#ff9090;">
-        ⚠️ Local HK banks (DBS, Citibank) require a <strong>local resident director</strong> in the company structure. Without it — rejection. That's why we go with Chouzhou Bank or the online option for new companies.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>📊 Accounting & Compliance</h2>
-      <ul class="questions-list">
-        <li>Annual reporting and audit <strong>required</strong> — HK is not a secrecy jurisdiction</li>
-        <li>Big advantage: first audit only due <strong>18 months after registration</strong> — start trading immediately, pay for accounting later</li>
-        <li>Accounting: $180/month when needed</li>
-        <li>HK is internationally respected — accepted by banks and partners worldwide</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>📝 Yurii's Notes — Key Insights</h2>
-      <ul class="questions-list">
-        <li>Hong Kong is one of our most requested products — very high demand</li>
-        <li>16.5% tax rate exists, but in practice international companies pay 0% — territorial system is the real story to sell</li>
-        <li><strong>Critical:</strong> goods and money must not enter or cross Hong Kong territory — not even the port. Structure the contracts correctly.</li>
-        <li>Registration is straightforward — passport scans, proof of address, 3 name options and we start. In registry within 2 weeks, documents ready in ~3 weeks total</li>
-        <li>Nominee director/shareholder is standard here because the registry is public. Extra docs issued: trust declaration + power of attorney. Nominee has no real influence on anything.</li>
-        <li>Local HK banks (DBS, Citi) want local nominee or hired director + detailed business plan + existing account history. New companies often get rejected — that's why we use Chouzhou Bank in China</li>
-        <li>Chouzhou Bank: send docs in Chinese translation → compliance review → client visits 1–2 days to sign → done. Gives USD, EUR, CNY, RUB accounts.</li>
-        <li>No China visa? — transit through Singapore (96h) or use China's 140h visa-free program. Enter from a third country. Plenty of time. Our clients do this regularly.</li>
-        <li>HK online bank: same as traditional bank in every way — except easier to get. Video verification, 2 weeks, sometimes 3 business days. Was done in 3 days once.</li>
-        <li>Also possible: UK payment account (remote) — accepted in HK, provides CNY accounts too. Offshore bank accounts also available.</li>
-        <li>We can build a solid full structure for any budget — company + bank account is enough to start operating</li>
-        <li>HK is NOT offshore in the old sense — has tax system, annual filing, mandatory audit. What makes it attractive is territorial taxation, not secrecy.</li>
-        <li>Fits any business type: trading, logistics, IT startups — no extra licences needed (except financial services)</li>
-      </ul>
+  <div class="card">
+    <h2>👤 Who is Ahmad</h2>
+    <div class="pg">
+      <div class="pi"><div class="pl">Name</div><div class="pv">Ahmad Al-Rashidi</div></div>
+      <div class="pi"><div class="pl">Age</div><div class="pv">38 years old</div></div>
+      <div class="pi"><div class="pl">Nationality</div><div class="pv">🇸🇦 Saudi Arabia</div></div>
+      <div class="pi"><div class="pl">Residence</div><div class="pv">🇦🇪 Dubai, UAE</div></div>
+      <div class="pi"><div class="pl">Business</div><div class="pv">Trading — construction materials</div></div>
+      <div class="pi"><div class="pl">Turnover</div><div class="pv">~$800K – $1M/year</div></div>
+      <div class="pi"><div class="pl">Structure now</div><div class="pv">No company — works as individual</div></div>
+      <div class="pi"><div class="pl">Ownership</div><div class="pv">Sole owner</div></div>
     </div>
   </div>
 
-  <!-- SCENARIO 1: OPENING -->
-  <div id="s1" class="block">
-    <div class="card">
-      <h2>📞 Scenario 1 — Opening & Qualification</h2>
+  <div class="card">
+    <h2>🏭 Business Model</h2>
+    <p style="color:#b0b0c8;font-size:14px;">Buys construction materials (rebar, fasteners, tools) from 3 suppliers in China (Guangzhou, Shanghai). Sells to buyers in <strong style="color:#80c8ff">Poland, Germany</strong> and <strong style="color:#80c8ff">Saudi Arabia</strong>. Goods ship directly China → buyer. Never through Hong Kong.</p>
+    <h3>Why he needs a company</h3>
+    <ul class="list">
+      <li>Chinese suppliers require contracts with a legal entity — refuse to deal with individuals</li>
+      <li>European buyers need proper invoices from a registered company</li>
+      <li>Personal UAE bank account is getting flagged on large China transactions</li>
+      <li>Wants privacy — doesn't want his name in any public registry</li>
+    </ul>
+  </div>
 
-      <div class="client-says">"Hi, I want to open a company in Hong Kong. I buy goods in China and supply to Europe and Saudi Arabia."</div>
-
-      <h3>Your opening</h3>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "Hi Ahmad, great to connect — Hong Kong is actually a very strong fit for exactly this type of business. Before I walk you through the options, can I ask a few quick questions to make sure I give you the most relevant setup?"
-      </div>
-
-      <h3>Qualification questions</h3>
-      <ul class="questions-list">
-        <li>What kind of products are you trading?</li>
-        <li>Are you the sole owner or do you have partners?</li>
-        <li>Do you currently have any company structure, or starting from scratch?</li>
-        <li>Do you need a bank account as well, or just the registration?</li>
-        <li>Is there a timeline you're working towards — a contract, supplier meeting?</li>
-        <li>Are you okay with a short trip if needed, or does everything need to be fully remote?</li>
-      </ul>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Why are you asking so many questions? Just tell me the price."</div>
-        <div class="twist-a">→ "Absolutely — I just want to make sure I give you the right number, not a generic one. Two quick answers and I'll have a full quote for you."</div>
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"I already spoke with another provider. They quoted me less."</div>
-        <div class="twist-a">→ "That's fair — you should compare. A few things worth checking: do they have direct banking relationships in China? Do they use actual HK-resident nominees? What happens if the bank application gets rejected? These are the parts where things usually go wrong."</div>
-      </div>
+  <div class="card">
+    <h2>😟 Pains → 🎯 Goals</h2>
+    <div style="margin-bottom:12px;">
+      <div class="tag pain">No legal entity</div>
+      <div class="tag pain">Bank account issues</div>
+      <div class="tag pain">Privacy concerns</div>
+      <div class="tag pain">Supplier compliance</div>
+    </div>
+    <div>
+      <div class="tag goal">0% tax on profit</div>
+      <div class="tag goal">USD + EUR account</div>
+      <div class="tag goal">Issue invoices legally</div>
+      <div class="tag goal">Name not public</div>
+      <div class="tag goal">Fully remote setup</div>
     </div>
   </div>
 
-  <!-- SCENARIO 2: TAXES -->
-  <div id="s2" class="block">
-    <div class="card">
-      <h2>💰 Scenario 2 — Tax Questions</h2>
+  <div class="card">
+    <h2>🎭 How Ahmad behaves</h2>
+    <ul class="list">
+      <li>Confident but interrupts when he hears an unfamiliar term — explain as you go</li>
+      <li>Asks about price early — give a range, not a full quote immediately</li>
+      <li>Says "too expensive" by habit — he negotiates, doesn't mean he won't buy</li>
+      <li>Trusts specifics and numbers — vague answers lose him</li>
+      <li>More interested in banking than registration — that's his real pain point</li>
+      <li>Will ask "is this 100% legal?" — be ready with a confident clear answer</li>
+      <li>May bring up UAE company as alternative mid-call</li>
+    </ul>
+  </div>
 
-      <div class="client-says">"What taxes will I actually pay in Hong Kong?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "Since your goods flow directly from China to Europe and Saudi Arabia — and never physically pass through Hong Kong — your profit is considered offshore income. That means 0% corporate tax, 0% on dividends, and 0% VAT. Hong Kong only taxes income that is sourced within Hong Kong itself."
-      </div>
+  <div style="border-top:2px solid #2d1b69;margin:28px 0 20px;text-align:center;">
+    <span style="color:#7c5cfc;font-size:12px;text-transform:uppercase;letter-spacing:2px;">🇭🇰 What We Offer</span>
+  </div>
 
-      <div class="client-says">"But how does Hong Kong know my goods don't pass through?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "It comes down to your contracts and invoices. Your HK company buys from the Chinese supplier and sells to your European or Saudi buyer — on paper. The goods ship directly. We structure the contracts correctly so the flow is clear. This is standard practice for thousands of trading companies in HK."
-      </div>
+  <div class="card">
+    <h2>🏢 The Product — Private Limited Company (Ltd)</h2>
+    <p style="color:#b0b0c8;font-size:14px;margin-bottom:14px;">Standard HK legal entity. Globally recognised. One director + one shareholder — can be the same person. No minimum capital.</p>
+    <h3>Registry is public → Nominee solution</h3>
+    <p style="color:#b0b0c8;font-size:14px;">We place a nominee director + nominee shareholder (HK residents). Two documents protect the real owner: <strong style="color:#c8b8ff">Trust Declaration</strong> + <strong style="color:#c8b8ff">General Power of Attorney</strong>. Nominee has zero real influence.</p>
+    <h3>Company Secretary — mandatory by law</h3>
+    <p style="color:#b0b0c8;font-size:14px;">Every HK company must have a local secretary. We provide it. Handles filings only — no access to operations or accounts.</p>
+    <h3>No licence needed for trading</h3>
+    <p style="color:#b0b0c8;font-size:14px;">Construction materials, supply chain, logistics — no extra licence. Only financial services (banking, crypto, insurance) require one.</p>
+  </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"What if my goods pass through Hong Kong port at some point?"</div>
-        <div class="twist-a">→ "If goods physically enter HK territory — that portion of income could be taxable. Rate is 8.25% up to HKD 2M profit, 16.5% above. But for your model — direct China to Europe/Saudi — this isn't relevant. The key is keeping the flow clean."</div>
-      </div>
+  <div class="card">
+    <h2>💰 Taxation — Territorial System</h2>
+    <ul class="list">
+      <li><strong>0%</strong> on all international income — goods flowing China → Europe/Saudi Arabia are not taxed</li>
+      <li><strong>0%</strong> on dividends for non-residents</li>
+      <li><strong>0%</strong> VAT — does not exist in HK</li>
+      <li><strong>8.25%</strong> only on income sourced inside HK (first HKD 2M)</li>
+    </ul>
+    <div class="tip">Key rule: goods and money must NOT physically pass through Hong Kong. The company is the legal intermediary on paper — contracts and invoices flow through HK, goods ship directly.</div>
+  </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Will Saudi tax authorities have any issues with this? I'm a Saudi citizen."</div>
-        <div class="twist-a">→ "You're a resident of UAE — 0% personal tax there. The HK company is a separate legal entity. Saudi Arabia taxes its residents — you're not a Saudi tax resident, you're a UAE resident. The structure is clean. That said, I'd always recommend confirming with your local tax advisor for full peace of mind."</div>
-      </div>
+  <div class="card">
+    <h2>🏦 Banking — Three Options</h2>
+    <h3>1. Chouzhou Bank (China) — best for China trade</h3>
+    <ul class="list">
+      <li>USD, EUR, CNY, RUB accounts — pay Chinese suppliers in yuan</li>
+      <li>1–2 day personal visit to China required (Shanghai or Harbin)</li>
+      <li>No visa? — 140h visa-free transit or Singapore stopover (96h)</li>
+      <li>Processing: ~2 months</li>
+    </ul>
+    <h3>2. HK Online Bank — fastest remote option</h3>
+    <ul class="list">
+      <li>Fully remote — video verification only</li>
+      <li>Opens in ~2 weeks. Sometimes 3 business days.</li>
+      <li>Multi-currency, same functionality as a branch bank</li>
+    </ul>
+    <h3>3. EMI (UK-based)</h3>
+    <ul class="list">
+      <li>Fully remote, EUR IBAN — accepted across Europe</li>
+      <li>Also supports CNY. Opens in 1–2 weeks.</li>
+    </ul>
+    <div class="warn">⚠️ Local HK banks (DBS, Citibank) require a local resident director in the structure. New companies get rejected. That's why we use Chouzhou or the online option.</div>
+  </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Is this legal? It sounds too good to be true."</div>
-        <div class="twist-a">→ "100% legal. Territorial taxation is written into Hong Kong law — it's not a loophole, it's the system. HK is a legitimate international financial centre. We have 11,000+ clients using exactly this structure. It works because the business genuinely operates internationally, not inside HK."</div>
-      </div>
+  <div class="card">
+    <h2>📊 Accounting</h2>
+    <ul class="list">
+      <li>Annual reporting and audit required — HK is not a secrecy jurisdiction</li>
+      <li>First audit only due <strong>18 months after registration</strong> — start trading immediately</li>
+      <li>Pay for accounting only when needed — not upfront</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ===================== CALL SCRIPT ===================== -->
+<div id="script" class="block">
+
+  <!-- INTRO -->
+  <div class="card">
+    <h2>1️⃣ Intro — Who We Are</h2>
+    <p style="color:#888;font-size:12px;margin-bottom:14px;">Keep it short. 3-4 sentences max. Establish credibility, not a sales pitch.</p>
+    <div class="speak">
+      <div class="speak-label">You say</div>
+      Hi Ahmad — good to connect. I'm [Name] from Prifinance. We help international businesses register companies and open bank accounts across 30+ jurisdictions — Europe, Asia, offshore. We've been doing this for 28 years, work with 11,000+ clients, and our main office is in Tallinn with offices in Dubai, London, Prague and others.<br><br>
+      Hong Kong is actually one of our most popular products — especially for businesses working with China. So let me ask you a couple of quick questions to make sure I recommend the right setup for you.
     </div>
   </div>
 
-  <!-- SCENARIO 3: STRUCTURE -->
-  <div id="s3" class="block">
-    <div class="card">
-      <h2>🏢 Scenario 3 — Company Structure</h2>
+  <!-- QUALIFICATION -->
+  <div class="card">
+    <h2>2️⃣ Qualification — 5 Questions</h2>
+    <p style="color:#888;font-size:12px;margin-bottom:16px;">Don't fire them all at once. Let it flow. After each answer — react, show expertise, then move to next question.</p>
 
-      <div class="client-says">"Who will appear as director? I don't want my name to be public."</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "The Hong Kong registry is public — so normally your name would be visible. But we can set up a nominee director and nominee shareholder — both HK residents. Your name appears nowhere publicly. You stay in full control through two legal documents: a Trust Declaration confirming you're the real beneficial owner, and a General Power of Attorney giving you full authority over the company. The nominee has zero real influence."
-      </div>
+    <div class="q-block">
+      <div class="q-text">"What kind of products are you trading — and who are your buyers?"</div>
+      <div class="q-why">→ This tells us the business model, transaction flow, and which banking setup will actually work. Some products trigger extra compliance questions at banks — better to know upfront.</div>
+    </div>
 
-      <div class="client-says">"What is a company secretary and why do I need it?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "It's a legal requirement under Hong Kong law — every HK company must have a local secretary. We provide this service. They handle statutory filings and compliance paperwork. It has no effect on how you run your business — think of it as a compliance administrator. Cost is $500/year."
-      </div>
+    <div class="q-block">
+      <div class="q-text">"Do you have any existing company structure, or are you starting from scratch?"</div>
+      <div class="q-why">→ If he already has a company somewhere, we need to understand the full picture. Maybe HK works as an addition, not a replacement.</div>
+    </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Wait — so my name won't be anywhere? Are you sure? I don't want issues with Saudi authorities."</div>
-        <div class="twist-a">→ "Correct — with a nominee structure, your name is not in the public registry. The nominee is. This is a legal, widely-used instrument for privacy — not tax evasion. The Trust Declaration is a private legal document that protects your ownership. Thousands of international business owners use this exact setup."</div>
-      </div>
+    <div class="q-block">
+      <div class="q-text">"Is privacy important to you — do you want your name to appear publicly in the registry?"</div>
+      <div class="q-why">→ HK registry is public. If privacy matters, we set up nominee director and shareholder. Important to clarify before presenting the structure.</div>
+    </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"I might want to hire someone in Hong Kong later. Is that possible?"</div>
-        <div class="twist-a">→ "Absolutely. HK companies can hire employees — local or international. Having local staff actually strengthens the company's substance, which makes banking easier in the future. We can discuss that when you're ready to scale."</div>
-      </div>
+    <div class="q-block">
+      <div class="q-text">"Do you need a bank account as well, or just the company registration? And are you comfortable with a short trip if needed — or does everything have to be fully remote?"</div>
+      <div class="q-why">→ Banking is often the real pain. The answer determines which option we lead with — Chouzhou Bank (requires visit) or online bank (fully remote). Don't wait until the end to ask this.</div>
+    </div>
 
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Can I add a partner later?"</div>
-        <div class="twist-a">→ "Yes — adding a shareholder is straightforward. We'd update the corporate structure and issue the relevant documents. Best to decide on the ownership structure now though, as it's simpler to set up correctly from the start."</div>
-      </div>
+    <div class="q-block">
+      <div class="q-text">"Is there any deadline you're working towards — a supplier contract, a buyer payment, a launch date?"</div>
+      <div class="q-why">→ Urgency changes everything. If he has a deadline, we can use that to drive momentum. Registration is 1–2 weeks — that's fast and worth highlighting if timing matters.</div>
     </div>
   </div>
 
-  <!-- SCENARIO 4: BANKING -->
-  <div id="s4" class="block">
-    <div class="card">
-      <h2>🏦 Scenario 4 — Banking</h2>
+  <!-- PRESENTATION -->
+  <div class="card">
+    <h2>3️⃣ Presentation — Step by Step</h2>
+    <p style="color:#888;font-size:12px;margin-bottom:18px;">Present as a clear process — not a list of services. Client should see what happens, in what order, and how fast.</p>
 
-      <h3>Three options</h3>
-      <table style="margin-bottom:20px;">
-        <tr><th>Option</th><th>Bank</th><th>Remote?</th><th>Timeline</th><th>Cost</th></tr>
-        <tr><td>🇨🇳 Chinese bank</td><td>Chouzhou Bank</td><td>Visit required (1–2 days)</td><td>~2 months</td><td>$6,000</td></tr>
-        <tr><td>🇭🇰 HK Online bank</td><td>HK bank</td><td>✅ Fully remote</td><td>~2 weeks</td><td>Included</td></tr>
-        <tr><td>🇬🇧 EMI (UK)</td><td>UK-based EMI</td><td>✅ Fully remote</td><td>1–2 weeks</td><td>$1,900</td></tr>
-      </table>
-
-      <div class="client-says">"$6,000 just for a bank account? That's too much."</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "I understand. Chouzhou Bank is our premium option — it gives you USD, EUR, CNY, and RUB accounts, which is powerful for your China sourcing. But if you want to start lighter, the Hong Kong online bank is fully remote, opens in 2 weeks, and is a complete banking solution. You can always add the Chinese account later when your volumes grow."
-      </div>
-
-      <div class="client-says">"I can't travel to China — I don't have a visa."</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "No problem. China offers a 140-hour visa-free transit — you fly in from a third country, sign the documents, and fly out. Or use Singapore as a stopover — 96 hours transit, no visa needed. Our clients do this regularly. Alternatively, the HK online bank requires zero travel."
-      </div>
-
-      <div class="client-says">"My European clients pay in EUR. Will I receive euros?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "Yes — all three options support EUR. Chouzhou gives you EUR directly. The HK online bank is multi-currency. And the UK EMI gives you a proper EUR IBAN that's seamlessly accepted across Europe."
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Will my Chinese suppliers accept payments from a Hong Kong company?"</div>
-        <div class="twist-a">→ "Absolutely — HK companies are extremely well-known and trusted in China. Chinese suppliers work with HK entities all the time. If you go with Chouzhou Bank, you can even pay in CNY directly, which suppliers prefer and often gives you better rates."</div>
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Can I use my existing UAE bank account for the company?"</div>
-        <div class="twist-a">→ "You could use it temporarily, but it's not ideal — UAE banks will ask questions about large China transactions on a personal account. A corporate account in Hong Kong keeps business and personal separate, and is what your suppliers and buyers will expect."</div>
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"What if the bank rejects my application?"</div>
-        <div class="twist-a">→ "We prepare the full package before submission — business description, transaction flows, KYC documents — to maximise approval chances. If there's an issue, we go to the next option. We don't charge again if the first attempt doesn't work through our fault."</div>
-      </div>
+    <div class="speak">
+      <div class="speak-label">Opening line</div>
+      Based on what you've told me — Hong Kong is the right fit. Here's exactly how it works and what we do for you, step by step.
     </div>
-  </div>
 
-  <!-- SCENARIO 5: ACCOUNTING -->
-  <div id="s5" class="block">
-    <div class="card">
-      <h2>📊 Scenario 5 — Accounting & Reporting</h2>
-
-      <div class="client-says">"Do I need to set up accounting from day one?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "No — and this is one of Hong Kong's biggest advantages. You don't need accounting immediately. The first audit is only required 18 months after registration. So you can register, open your bank account, start trading, and deal with the books later. Upfront you only pay for the company and the bank account."
-      </div>
-
-      <div class="client-says">"Is Hong Kong still considered an offshore jurisdiction?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "Not in the traditional sense. Hong Kong has its own tax system, annual filing requirements, and mandatory audit. It's a legitimate, internationally respected jurisdiction — not a secrecy haven. What makes it attractive is the territorial tax system, not secrecy. That's why it's accepted by banks and partners worldwide."
-      </div>
-
-      <div class="client-says">"How much does accounting cost when I need it?"</div>
-      <div class="manager-says">
-        <strong>Manager</strong>
-        "Our accounting service is $180/month. When the audit is due, we prepare everything. Most trading companies with your volume spend around $2,000–3,000/year on full compliance once they're operational."
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"What happens if I don't file on time?"</div>
-        <div class="twist-a">→ "HK has penalties for late filing — fines and in serious cases deregistration. That's exactly why we recommend setting up accounting before the 18-month deadline, not at the last minute. We'll remind you proactively."</div>
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn</div>
-        <div class="twist-q">"Do I need to declare my profits anywhere else — like in UAE or Saudi?"</div>
-        <div class="twist-a">→ "UAE has no personal income tax, so no declaration needed there. Saudi Arabia — you'd need to check with a local advisor based on your specific tax residency status. The HK company files its own returns in HK independently."</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCENARIO 6: OBJECTIONS -->
-  <div id="s6" class="block">
-    <div class="card">
-      <h2>🛡️ Scenario 6 — Objections</h2>
-
-      <div class="scenario">
-        <div class="scenario-header" onclick="toggle(this)">
-          <h3>"Why Hong Kong and not UAE? I already live there."</h3>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="scenario-body">
-          <div class="manager-says"><strong>Manager</strong>"UAE is excellent for personal residency and 0% personal tax — and we work with UAE too. But for a trading business sourcing from China, Hong Kong is the stronger operational structure. Chinese suppliers know and trust HK entities. You can settle in CNY directly. And it's significantly cheaper to set up — UAE freezone starts at $15,000+, HK starts at $2,500."</div>
-          <div class="tip">If he pushes back — offer: HK company for trading + UAE residency for personal. Best of both worlds.</div>
+    <div class="timeline" style="margin-top:20px;">
+      <div class="tl-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-body">
+          <div class="tl-time">Week 1–2</div>
+          <div class="tl-title">Company Registration</div>
+          <div class="tl-desc">We register your Private Limited Company in Hong Kong — fully remote, no visit needed. We handle the name check, all government filings, legal address, and the mandatory company secretary (required by law — we provide it). If you want privacy, we also set up a nominee director and shareholder so your name doesn't appear in the public registry. You stay in full control through a Trust Declaration and Power of Attorney.</div>
         </div>
       </div>
-
-      <div class="scenario">
-        <div class="scenario-header" onclick="toggle(this)">
-          <h3>"It's too expensive overall."</h3>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="scenario-body">
-          <div class="manager-says"><strong>Manager</strong>"Let's break it down into stages. Step one: company + secretary + legal address — $2,500. That's it. You're registered, you can sign contracts with your suppliers and issue invoices to buyers. Bank account we do separately — and you can choose the remote option at $1,900 to keep it lean. Total to be fully operational: $4,400."</div>
-          <div class="tip">Always offer to split into stages. Company first → bank second. Reduces the entry barrier significantly.</div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-body">
+          <div class="tl-time">Parallel or Week 2–3</div>
+          <div class="tl-title">Bank Account Setup</div>
+          <div class="tl-desc">Two options depending on your preference. Option A: Hong Kong online bank — fully remote, video verification, opens in about 2 weeks. Multi-currency, works like any regular bank. Option B: Chouzhou Bank in China — gives you USD, EUR, CNY and RUB accounts, ideal for paying your Chinese suppliers directly in yuan. Requires a 1–2 day visit to China — we coordinate everything, you just show up and sign.</div>
         </div>
       </div>
-
-      <div class="scenario">
-        <div class="scenario-header" onclick="toggle(this)">
-          <h3>"Can I do this myself? Or find it cheaper?"</h3>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="scenario-body">
-          <div class="manager-says"><strong>Manager</strong>"Technically yes — the registry is public. But what people don't anticipate: the nominee arrangements, the apostille chain, banking compliance requirements, and ongoing statutory filings. We've done this hundreds of times across 30+ jurisdictions. The difference is we know exactly what banks accept and what gets rejected — and we handle the parts that get stuck."</div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-body">
+          <div class="tl-time">From day one</div>
+          <div class="tl-title">You're Operational</div>
+          <div class="tl-desc">Company is registered, account is open — you can sign contracts with your Chinese suppliers, issue invoices to your European and Saudi buyers, and receive payments. All legally, under a proper corporate structure.</div>
         </div>
       </div>
-
-      <div class="scenario">
-        <div class="scenario-header" onclick="toggle(this)">
-          <h3>"Is this 100% legal? I don't want any problems."</h3>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="scenario-body">
-          <div class="manager-says"><strong>Manager</strong>"Absolutely. Territorial taxation is written into Hong Kong law — not a loophole. Nominee services are legal and widely used internationally. HK is a respected global financial centre, not a blacklisted jurisdiction. We work with 11,000+ clients using these structures. No grey areas here."</div>
-        </div>
-      </div>
-
-      <div class="scenario">
-        <div class="scenario-header" onclick="toggle(this)">
-          <h3>"I need to think about it."</h3>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="scenario-body">
-          <div class="manager-says"><strong>Manager</strong>"Of course — take the time you need. Just so you know — registration takes 1–2 weeks once we start. Do you have any supplier meetings or contracts coming up where you'll need the company in place? That would help us plan the right timeline."</div>
-          <div class="tip">Find the deadline. A supplier meeting, a buyer contract, anything. That's what closes "let me think."</div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-body">
+          <div class="tl-time">After 18 months</div>
+          <div class="tl-title">Accounting & Audit</div>
+          <div class="tl-desc">First audit is only required 18 months after registration. So you don't need to set up accounting from day one — start generating revenue first, sort the books later. We handle this when the time comes.</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- SCENARIO 7: CLOSING -->
-  <div id="s7" class="block">
-    <div class="card">
-      <h2>✅ Scenario 7 — Closing</h2>
-
-      <div class="closing-options">
-        <div class="closing-card">
-          <h4>🟢 Soft close (client is warm)</h4>
-          <p>"Based on everything — I'd recommend starting with the company plus the HK online bank. Fully remote, $4,400 total, operational in 3–4 weeks. Let me send you a formal quote with the full breakdown. What's the best email for you?"</p>
-        </div>
-        <div class="closing-card">
-          <h4>🔵 Hard close (client is ready)</h4>
-          <p>"Great. To get started I need three things: passport copy, proof of address, and three name options for the company. I'll send you the onboarding form right now — shall we do that?"</p>
-        </div>
-        <div class="closing-card">
-          <h4>🟡 Client not ready</h4>
-          <p>"No problem. I'll send you a summary of what we discussed and the pricing. When would be a good time to reconnect — say, in a week?"</p>
-        </div>
-        <div class="closing-card">
-          <h4>🔴 Client asks for discount</h4>
-          <p>"I can't move on the service fees, but I can suggest starting with just the company for now at $2,500 — no bank, no nominees — and we add those when you're ready. That's the most flexible entry point I can offer."</p>
-        </div>
-      </div>
-
-      <div class="twist" style="margin-top:20px;">
-        <div class="twist-label">⚡ Unexpected turn at closing</div>
-        <div class="twist-q">"Can I pay in installments?"</div>
-        <div class="twist-a">→ "We work with upfront payment for the registration. But we can split it: pay for company registration now, bank account payment separately once we start that process. That naturally stages your payments."</div>
-      </div>
-
-      <div class="twist">
-        <div class="twist-label">⚡ Unexpected turn at closing</div>
-        <div class="twist-q">"What documents do you need from me exactly?"</div>
-        <div class="twist-a">→ "Just three things to start: 1) Passport copy (high quality scan), 2) Proof of address — utility bill or bank statement with your name, 3) Three company name options in order of preference. That's it — everything else we handle."</div>
-      </div>
+    <h3 style="margin-top:24px;">Why 0% tax on your profit</h3>
+    <div class="speak">
+      <div class="speak-label">Explain clearly</div>
+      Hong Kong uses what's called territorial taxation — they only tax income that's generated inside Hong Kong. Your goods go from China directly to Europe and Saudi Arabia. They never touch Hong Kong. So Hong Kong doesn't tax that profit. 0% corporate tax, 0% on dividends, 0% VAT. This isn't a loophole — it's written into Hong Kong law and it's how thousands of trading companies structure their operations.
     </div>
   </div>
 
-  <!-- CHEAT SHEET -->
-  <div id="cheatsheet" class="block">
-    <div class="card">
-      <h2>⚡ Quick Reference</h2>
+  <!-- REQUIREMENTS -->
+  <div class="card">
+    <h2>4️⃣ What We Need From You</h2>
+    <p style="color:#888;font-size:12px;margin-bottom:14px;">Keep it simple. 3 things to start.</p>
+    <div class="req-grid">
+      <div class="req-item"><div class="req-label">To start registration</div>Passport copy (high quality scan)</div>
+      <div class="req-item"><div class="req-label">To start registration</div>Proof of address — utility bill or bank statement</div>
+      <div class="req-item"><div class="req-label">To start registration</div>3 company name options (in order of preference)</div>
+      <div class="req-item"><div class="req-label">To start registration</div>Brief description of your business activity (3–4 sentences)</div>
+      <div class="req-item"><div class="req-label">For bank account</div>Same documents + completed bank forms (we provide)</div>
+      <div class="req-item"><div class="req-label">For bank account</div>Contact email and phone number</div>
+    </div>
+    <div class="tip" style="margin-top:14px;">That's it. We handle everything else — filings, translations, coordination with the registry and bank.</div>
+  </div>
 
-      <h3 style="margin-bottom:12px;">Pricing</h3>
-      <table style="margin-bottom:20px;">
-        <tr><th>Service</th><th>Cost</th><th>Required?</th></tr>
-        <tr><td>Company registration</td><td>$700</td><td><span class="badge required">Required</span></td></tr>
-        <tr><td>Remote registration</td><td>$400</td><td><span class="badge required">Required</span></td></tr>
-        <tr><td>Legal address (1 year)</td><td>$900</td><td><span class="badge required">Required</span></td></tr>
-        <tr><td>Company secretary (1 year)</td><td>$500</td><td><span class="badge required">Required by law</span></td></tr>
-        <tr><td>Nominee director</td><td>$700</td><td><span class="badge optional">Optional</span></td></tr>
-        <tr><td>Nominee shareholder</td><td>$700</td><td><span class="badge optional">Optional</span></td></tr>
-        <tr><td>HK Online bank</td><td>~$1,900</td><td><span class="badge optional">Optional</span></td></tr>
-        <tr><td>Chouzhou Bank (China)</td><td>$6,000</td><td><span class="badge optional">Optional</span></td></tr>
-        <tr><td>Accounting (monthly)</td><td>$180/mo</td><td><span class="badge optional">After 18 months</span></td></tr>
-      </table>
+</div>
 
-      <h3 style="margin-bottom:12px;">Key facts to remember</h3>
-      <table style="margin-bottom:20px;">
-        <tr><th>Question</th><th>Answer</th></tr>
-        <tr><td>Tax on offshore trading profit</td><td>0%</td></tr>
-        <tr><td>Registry public?</td><td>Yes → solution: nominee</td></tr>
-        <tr><td>Secretary mandatory?</td><td>Yes, by law</td></tr>
-        <tr><td>License for trading?</td><td>Not needed</td></tr>
-        <tr><td>Accounting from day 1?</td><td>No — after 18 months</td></tr>
-        <tr><td>Remote registration?</td><td>Yes, fully remote</td></tr>
-        <tr><td>Registration timeline</td><td>1–2 weeks</td></tr>
-        <tr><td>Min budget to start</td><td>~$2,500</td></tr>
-        <tr><td>Fully operational (remote)</td><td>~$4,400</td></tr>
-      </table>
+<!-- ===================== POTENTIAL QUESTIONS ===================== -->
+<div id="questions" class="block">
 
-      <h3 style="margin-bottom:12px;">If Ahmad brings up alternatives</h3>
-      <table>
-        <tr><th>He says</th><th>Your response</th></tr>
-        <tr><td>"What about UAE?"</td><td>HK cheaper, better for China trade, CNY account</td></tr>
-        <tr><td>"What about Singapore?"</td><td>More prestigious, stricter compliance, slower, more expensive</td></tr>
-        <tr><td>"What about BVI?"</td><td>Pure offshore holding — harder to bank, no trading infrastructure</td></tr>
-        <tr><td>"What about my home country?"</td><td>Why pay full tax on profits earned internationally?</td></tr>
-      </table>
+  <div class="card" style="background:#141824;border-color:#1e2235;">
+    <p style="color:#888;font-size:13px;">These are reference scenarios — not a script. Use them to prepare, not to read from.</p>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>💰 "What taxes will I pay?"</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>Your goods go from China directly to Europe and Saudi Arabia — they never pass through Hong Kong. So your profit is offshore income — 0% tax. HK only taxes income sourced inside HK. 0% on dividends. 0% VAT. Simple.</div>
+      <div class="twist"><div class="twist-label">⚡ Follow-up</div><div class="twist-q">"What if my goods pass through HK port?"</div><div class="twist-a">Then that portion becomes taxable — 8.25% up to HKD 2M profit. But for your model this isn't relevant — goods ship direct.</div></div>
+      <div class="twist"><div class="twist-label">⚡ Follow-up</div><div class="twist-q">"Is this 100% legal?"</div><div class="twist-a">Yes — territorial taxation is written into HK law. Not a loophole. HK has 11,000+ trading companies using this exact structure.</div></div>
     </div>
   </div>
 
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>🏢 "Who appears as director? I don't want my name public."</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>HK registry is public — normally your name would be visible. We solve this with a nominee director and shareholder — both HK residents. Two documents protect you: Trust Declaration confirms you're the real owner, Power of Attorney gives you full control. The nominee has zero real influence on anything.</div>
+      <div class="twist"><div class="twist-label">⚡ Follow-up</div><div class="twist-q">"Will Saudi authorities have issues with this?"</div><div class="twist-a">You're a UAE resident — 0% personal tax there. Saudi Arabia taxes its own residents. The HK company is a separate legal entity. Structure is clean. Always good to confirm with a local advisor too.</div></div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>🏦 "$6,000 just for a bank account? Too expensive."</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>Understood. Chouzhou Bank is our premium option — USD, EUR, CNY, RUB, ideal for paying Chinese suppliers directly in yuan. But if you want to start lighter — the HK online bank is fully remote, opens in 2 weeks, and works exactly like a traditional bank. Same functionality. You can always add the Chinese account later when volumes grow.</div>
+      <div class="tip">Lead with the online bank for budget-conscious clients. It's the better entry point.</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>🇦🇪 "Why not just open a company in UAE? I live there."</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>UAE is excellent for personal residency and 0% personal tax — and we work with UAE too. But for a trading business sourcing from China, Hong Kong is the stronger operational structure. Chinese suppliers know and trust HK entities. You can settle in CNY directly. And it's significantly cheaper — UAE freezone starts at $15,000+, HK starts at $2,500.</div>
+      <div class="tip">Offer both: HK company for the trading operation + UAE residency for personal tax planning. Best of both worlds.</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>✈️ "I can't travel to China — no visa."</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>No problem. China offers 140-hour visa-free transit — you fly in from a third country, sign the documents, fly out. Or use Singapore as a stopover — 96 hours transit, no visa needed. Our clients do this all the time. Alternatively, go with the HK online bank — fully remote, zero travel needed.</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>🤔 "I need to think about it."</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>Of course — take the time you need. One thing worth keeping in mind: registration takes 1–2 weeks once we start. Do you have any supplier meetings or contracts coming up where you'll need the company in place? That would help us plan the right timeline.</div>
+      <div class="tip">Find the deadline. A supplier meeting, a buyer contract — that's what closes "let me think."</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>💸 "Can I start with just the company and add the bank later?"</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>Exactly how we recommend it. Register the company first — you can already sign contracts with suppliers and issue invoices to buyers. Add the bank account when you're ready. No need to do everything at once.</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>📋 "Do I need accounting from day one?"</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>No — and this is one of HK's biggest advantages. First audit is only required 18 months after registration. Start trading, generate revenue, sort the books later. You only pay for the company and bank account upfront.</div>
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="sc-header" onclick="tog(this)"><h3>⚖️ "Can I do this myself or find it cheaper?"</h3><span class="sc-arrow">▼</span></div>
+    <div class="sc-body">
+      <div class="speak"><div class="speak-label">Answer</div>Technically yes — the registry is public. But what people don't anticipate: nominee arrangements, apostille chains, banking compliance, statutory filings. We've done this hundreds of times. The difference is we know exactly what banks accept and what gets rejected — and we handle the parts that get stuck.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== CHEAT SHEET ===================== -->
+<div id="cheat" class="block">
+
+  <div class="card">
+    <h2>⚡ Key Facts</h2>
+    <table>
+      <tr><th>Question</th><th>Answer</th></tr>
+      <tr><td>Tax on international trading profit</td><td>0%</td></tr>
+      <tr><td>Dividends for non-residents</td><td>0%</td></tr>
+      <tr><td>VAT</td><td>Does not exist</td></tr>
+      <tr><td>Registry public?</td><td>Yes → solve with nominee</td></tr>
+      <tr><td>Secretary mandatory?</td><td>Yes, by law — we provide</td></tr>
+      <tr><td>Licence for trading?</td><td>Not needed</td></tr>
+      <tr><td>Accounting from day 1?</td><td>No — first audit after 18 months</td></tr>
+      <tr><td>Remote registration?</td><td>Yes, 100% remote</td></tr>
+      <tr><td>Registration timeline</td><td>1–2 weeks</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>💰 Pricing</h2>
+    <table>
+      <tr><th>Service</th><th>Cost</th><th>Required?</th></tr>
+      <tr><td>Company registration</td><td>$700</td><td style="color:#ff8080">Yes</td></tr>
+      <tr><td>Remote registration</td><td>$400</td><td style="color:#ff8080">Yes</td></tr>
+      <tr><td>Legal address (1 year)</td><td>$900</td><td style="color:#ff8080">Yes</td></tr>
+      <tr><td>Company secretary (1 year)</td><td>$500</td><td style="color:#ff8080">Yes — by law</td></tr>
+      <tr><td>Nominee director</td><td>$700</td><td style="color:#80c080">Optional</td></tr>
+      <tr><td>Nominee shareholder</td><td>$700</td><td style="color:#80c080">Optional</td></tr>
+      <tr><td>HK online bank</td><td>~$1,900</td><td style="color:#80c080">Optional</td></tr>
+      <tr><td>Chouzhou Bank (China)</td><td>$6,000</td><td style="color:#80c080">Optional</td></tr>
+      <tr><td>Accounting (monthly)</td><td>$180/mo</td><td style="color:#80c080">After 18 months</td></tr>
+    </table>
+    <div class="tip" style="margin-top:14px;">
+      Min to start: <strong>~$2,500</strong> &nbsp;|&nbsp;
+      With nominee: <strong>~$3,900</strong> &nbsp;|&nbsp;
+      Fully operational remote: <strong>~$4,400</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔄 If Client Mentions Alternatives</h2>
+    <table>
+      <tr><th>He says</th><th>Your response</th></tr>
+      <tr><td>"What about UAE?"</td><td>HK cheaper, better for China trade, CNY account available</td></tr>
+      <tr><td>"What about Singapore?"</td><td>More prestigious, stricter compliance, slower, more expensive</td></tr>
+      <tr><td>"What about BVI?"</td><td>Pure offshore holding — harder to bank, no trading infrastructure</td></tr>
+      <tr><td>"My home country"</td><td>Why pay full tax on internationally earned profits?</td></tr>
+    </table>
+  </div>
+
+</div>
 </div>
 
 <script>
@@ -627,12 +489,10 @@ function show(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
-
-function toggle(header) {
+function tog(header) {
   header.classList.toggle('open');
   header.nextElementSibling.classList.toggle('open');
 }
 </script>
-
 </body>
 </html>
