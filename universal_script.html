@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prifinance — Universal Sales Script</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #0d1017; color: #dde0e8; line-height: 1.75; }
+
+.header { background: linear-gradient(135deg, #12172a, #1a2a1a); padding: 34px 40px; text-align: center; border-bottom: 2px solid #2a5a2a; }
+.header h1 { font-size: 24px; color: #b8ffb8; letter-spacing: 1px; }
+.header p { color: #777; margin-top: 6px; font-size: 13px; }
+
+.lang-nav { display: flex; background: #141824; border-bottom: 1px solid #252d42; }
+.lang-nav button { padding: 14px 32px; background: none; border: none; color: #777; cursor: pointer; font-size: 15px; border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 600; }
+.lang-nav button:hover { color: #b8ffb8; background: #1a2030; }
+.lang-nav button.active { color: #b8ffb8; border-bottom-color: #4a9a4a; background: #1a2030; }
+
+.content { max-width: 860px; margin: 0 auto; padding: 30px 20px 80px; }
+.block { display: none; }
+.block.active { display: block; }
+
+/* STAGES */
+.stage { margin-bottom: 28px; border-radius: 14px; overflow: hidden; border: 1px solid #232b40; }
+.stage-header { display: flex; align-items: center; gap: 16px; padding: 18px 22px; background: #161c2e; border-bottom: 1px solid #232b40; }
+.stage-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+.stage-num.s1 { background: #1a3a5a; color: #7ab8ff; }
+.stage-num.s2 { background: #3a2a1a; color: #ffaa55; }
+.stage-num.s3 { background: #1a3a1a; color: #55cc55; }
+.stage-num.s4 { background: #3a1a3a; color: #cc77ff; }
+.stage-num.s5 { background: #3a2a1a; color: #ffcc44; }
+.stage-title { color: #e0deff; font-size: 16px; font-weight: 700; }
+.stage-sub { color: #667; font-size: 12px; margin-top: 2px; }
+.stage-body { padding: 20px 22px; background: #0f1520; }
+
+/* SPEAK BLOCK */
+.speak { background: #0a1a0a; border-left: 3px solid #4a9a4a; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; }
+.speak-label { font-size: 10px; color: #4a9a4a; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
+.speak p { color: #c8e8c8; font-size: 14px; line-height: 1.8; }
+.speak p + p { margin-top: 10px; }
+
+/* TIP */
+.tip { background: #1a1a0a; border-left: 3px solid #888833; border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 10px 0; font-size: 12px; color: #bbbb77; line-height: 1.6; }
+
+/* QUESTION BLOCK */
+.q-item { background: #0f1520; border: 1px solid #232b40; border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; }
+.q-num { font-size: 10px; color: #ffaa55; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 700; }
+.q-ask { color: #e0deff; font-size: 15px; font-style: italic; margin-bottom: 10px; line-height: 1.6; }
+.q-why { font-size: 12px; color: #8888aa; border-left: 2px solid #3a3060; padding-left: 10px; line-height: 1.6; margin-bottom: 8px; }
+.q-tip { font-size: 12px; color: #ffaa55; margin-top: 6px; }
+
+/* PRES SECTION */
+.pres { background: #0f1520; border: 1px solid #232b40; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.pres-title { color: #b8ffb8; font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.pres-title span { background: #1a3a1a; color: #77cc77; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+
+/* CONDITIONAL */
+.cond-block { background: #0d1a0d; border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px 14px; margin: 8px 0; }
+.cond-if { font-size: 11px; color: #77aa77; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; font-weight: 700; }
+.cond-then { font-size: 13px; color: #c8e0c8; }
+
+/* TABLE */
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+th { background: #1a2030; color: #9d8cff; padding: 8px 12px; text-align: left; font-weight: 600; border-bottom: 1px solid #2a3050; }
+td { padding: 8px 12px; border-bottom: 1px solid #1a2030; color: #c0c8d8; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #141c2c; }
+
+/* SUMMARY BOX */
+.summary-box { background: #0d1a2a; border: 2px solid #2a4a6a; border-radius: 12px; padding: 20px; margin: 14px 0; }
+.summary-box h3 { color: #7ab8ff; margin-bottom: 14px; font-size: 14px; }
+.summary-line { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid #1a2a3a; font-size: 13px; }
+.summary-line:last-child { border-bottom: none; }
+.sl-label { color: #667788; min-width: 120px; font-size: 12px; }
+.sl-value { color: #c8d8e8; font-style: italic; }
+
+/* CLOSE VARIANTS */
+.close-card { background: #0f1520; border: 1px solid #232b40; border-radius: 10px; padding: 16px 18px; margin-bottom: 10px; }
+.close-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.close-tag.soft { color: #55aaff; }
+.close-tag.hard { color: #55cc55; }
+.close-tag.cold { color: #cc7755; }
+.close-tag.price { color: #ffaa55; }
+.close-tag.docs { color: #cc77ff; }
+
+/* OBJECTION */
+.obj { background: #1a0f0f; border: 1px solid #3a2020; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; }
+.obj-q { color: #ff8877; font-size: 13px; font-style: italic; margin-bottom: 8px; }
+.obj-a { color: #c8b8b8; font-size: 13px; line-height: 1.7; }
+
+/* DOCS LIST */
+.docs-list { list-style: none; }
+.docs-list li { padding: 7px 0; border-bottom: 1px solid #1a2030; font-size: 13px; color: #c0c8d8; display: flex; gap: 10px; align-items: center; }
+.docs-list li:last-child { border-bottom: none; }
+.docs-list li::before { content: '→'; color: #cc77ff; font-weight: 700; }
+
+/* INFO BOX */
+.info { background: #0f1a10; border: 1px solid #2a4a2a; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #88aa88; margin-bottom: 20px; }
+
+h3 { color: #9d8cff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.8px; margin: 18px 0 10px; }
+
+.divider { border: none; border-top: 1px solid #1a2030; margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Prifinance — Universal Sales Script</h1>
+  <p>Универсальный скрипт продаж · Адаптируй под каждого клиента</p>
+</div>
+
+<div class="lang-nav">
+  <button class="active" onclick="switchLang('ru', this)">🇷🇺 Русский</button>
+  <button onclick="switchLang('en', this)">🇬🇧 English</button>
+</div>
+
+<!-- ===== RUSSIAN ===== -->
+<div id="ru" class="block active">
+<div class="content">
+
+  <div class="info">Следуй этапам по порядку. После каждого ответа клиента — реагируй, покажи что понял, и только потом следующий вопрос. Не анкета — разговор.</div>
+
+  <!-- STAGE 1 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s1">1</div>
+      <div>
+        <div class="stage-title">Открытие</div>
+        <div class="stage-sub">~2 минуты · Доверие · Разрешение на вопросы</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <h3>Если клиент написал сам (inbound)</h3>
+      <div class="speak">
+        <div class="speak-label">Говоришь</div>
+        <p>Привет, [Имя]! Это [Твоё имя], компания Prifinance. Рад что написали — давайте разберёмся что вам подойдёт лучше всего.</p>
+        <p>Прежде чем рассказывать про варианты — можно задам пару вопросов? Хочу понять вашу ситуацию, чтобы не предлагать то что не подходит.</p>
+      </div>
+
+      <h3>Если ты звонишь первым (cold)</h3>
+      <div class="speak">
+        <div class="speak-label">Говоришь</div>
+        <p>Добрый день, [Имя]! Меня зовут [Имя], компания Prifinance. Мы помогаем международному бизнесу регистрировать компании и открывать счета — Европа, Азия, офшорные структуры. 28 лет на рынке, больше 11 000 клиентов.</p>
+        <p>Вы оставляли заявку по поводу регистрации / открытия счёта — так? Тогда давайте так: сначала я задам пару вопросов чтобы понять задачу, потом расскажу что подходит конкретно вам — хорошо?</p>
+      </div>
+
+      <div class="tip">Не спрашивай "удобно говорить?" — даёшь возможность к отступлению. Если сразу спрашивает цену: "Назову — только мне нужно 2 минуты понять вашу ситуацию, иначе назову неправильный пакет."</div>
+
+      <h3>Если клиент уже смотрел конкурентов</h3>
+      <div class="speak">
+        <div class="speak-label">Говоришь</div>
+        <p>Скажите — вас интересует именно та юрисдикция что смотрели, и вы просто сравниваете цену? Или если мы подберём что-то лучше под вашу задачу — готовы рассмотреть?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 2 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s2">2</div>
+      <div>
+        <div class="stage-title">Квалификация</div>
+        <div class="stage-sub">~7 минут · 6 вопросов · Реагируй после каждого ответа</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 1 — Бизнес</div>
+        <div class="q-ask">"Какой у вас бизнес — и где находятся ваши клиенты и партнёры?"</div>
+        <div class="q-why">Определяет юрисдикцию. Торговля с Китаем → Гонконг. EU партнёры → EU компания. Цифровой бизнес → Эстония или Латвия. Некоторые виды деятельности требуют лицензии — лучше знать сразу.</div>
+        <div class="q-tip">→ После ответа: "То есть у вас [описываешь бизнес] — клиенты в [место], поставщики в [место]. Понятно — это как раз стандартная ситуация с которой мы работаем."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 2 — Конфиденциальность</div>
+        <div class="q-ask">"Важно ли чтобы ваше имя не фигурировало публично — как директора и акционера?"</div>
+        <div class="q-why">Во многих юрисдикциях (Гонконг, UK, часть EU) реестр публичный. Если важна конфиденциальность — нужен номинальный сервис. Это меняет структуру и цену — надо знать до презентации.</div>
+        <div class="q-tip">→ Если да: "Без проблем — ставим номинального директора и акционера. Ваше имя нигде не светится, при этом вы остаётесь полноценным владельцем через трастовую декларацию и доверенность. Расскажу как это работает."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 3 — Банк</div>
+        <div class="q-ask">"Нужен банковский счёт? И в каких валютах в основном будете работать — доллар, евро, что-то ещё?"</div>
+        <div class="q-why">Банк — чаще всего главная боль клиента. Валюта определяет какой банк рекомендовать. CNY → Chouzhou Bank. EUR → EMI с UK IBAN. Быстро и удалённо → онлайн-банк.</div>
+        <div class="q-tip">→ После ответа: "Понял — это как раз меняет какой вариант счёта я вам порекомендую."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 4 — Визит</div>
+        <div class="q-ask">"Вы готовы к короткой поездке — скажем 1–2 дня — если это нужно для банка? Или всё должно быть удалённо?"</div>
+        <div class="q-why">Часть банковских опций требует личного визита. Chouzhou Bank (Китай) — 1–2 дня. Если не готов ехать — онлайн-банк или EMI, оба удалённо.</div>
+        <div class="q-tip">→ Если не готов: "Хорошо — у нас есть два полностью удалённых варианта, которые работают так же хорошо."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 5 — Сроки</div>
+        <div class="q-ask">"Есть ли у вас дедлайн — контракт с поставщиком, встреча с партнёром, дата запуска?"</div>
+        <div class="q-why">Срочность — главный рычаг закрытия. Если есть дедлайн — используй его.</div>
+        <div class="q-tip">→ Если есть: "Тогда нам надо двигаться быстро — регистрация занимает [срок] после старта. Если у вас встреча через [X], мы реально поджимаем."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Вопрос 6 — Релокация (если есть намёк)</div>
+        <div class="q-ask">"Вы рассматриваете переезд — сами или с семьёй? Или это чисто бизнес-структура?"</div>
+        <div class="q-why">Если да — апсейл на ВНЖ через бизнес (Сербия, Португалия, ОАЭ, Венгрия).</div>
+        <div class="q-tip">→ Если да: "Отлично — тогда у нас есть интересный вариант: регистрируем компанию и параллельно оформляем ВНЖ на основании бизнеса. Расскажу."</div>
+      </div>
+
+      <div class="speak" style="margin-top:16px;">
+        <div class="speak-label">Переход к презентации</div>
+        <p>Хорошо, всё понял. Исходя из того что вы рассказали — давайте покажу что вам подходит. Расскажу про налоги, структуру компании, банк — и в конце дам итоговую цифру.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 3 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s3">3</div>
+      <div>
+        <div class="stage-title">Презентация</div>
+        <div class="stage-sub">~10 минут · Налоги → Структура → Банк → Бухгалтерия · Адаптируй под ответы</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="pres">
+        <div class="pres-title">💰 Налоги <span>Начинай всегда с этого — это главный крючок</span></div>
+
+        <div class="speak">
+          <div class="speak-label">Говоришь</div>
+          <p>Главная вещь по [юрисдикция] — и это как раз то что делает её сильной под вашу ситуацию.</p>
+          <p>[Объясни налоговое преимущество конкретно под их бизнес-модель]</p>
+          <p>Это не серая схема и не лазейка — это написано в законе [страны]. Тысячи международных компаний работают именно так, и это полностью легально.</p>
+        </div>
+
+        <div class="tip">Дай цифрам осесть. После "0% налог" — секундная пауза, потом подтверди: "Да, именно так — потому что ваш бизнес реально работает международно."</div>
+
+        <h3>Шпаргалка по налогам</h3>
+        <table>
+          <tr><th>Юрисдикция</th><th>CIT</th><th>Дивиденды</th><th>Главный аргумент</th></tr>
+          <tr><td>🇭🇰 Гонконг</td><td>0% офшор / 8.25–16.5% местный</td><td>0%</td><td>Доход вне HK не облагается вообще</td></tr>
+          <tr><td>🇪🇪 Эстония</td><td>0% пока не выводишь</td><td>22% при выплате</td><td>Платишь налог только когда выводишь дивиденды</td></tr>
+          <tr><td>🇭🇺 Венгрия</td><td>9%</td><td>0% нерезиденты</td><td>Самый низкий налог в ЕС</td></tr>
+          <tr><td>🇸🇰 Словакия</td><td>22%</td><td>—</td><td>EU легитимность, номинальный директор</td></tr>
+          <tr><td>🇱🇻 Латвия</td><td>0% нераспределённая</td><td>20% при выплате</td><td>EU + Baltic banking</td></tr>
+          <tr><td>🇨🇾 Кипр</td><td>12.5%</td><td>0% нерезиденты</td><td>EU + IP Box режим</td></tr>
+          <tr><td>🇮🇲 Остров Мэн</td><td>0%</td><td>0%</td><td>Полный офшор, холдинг, активы</td></tr>
+          <tr><td>🇰🇳 Невис / 🇻🇬 BVI / 🇸🇨 Сейшелы</td><td>0%</td><td>0%</td><td>Чистый офшор — конфиденциальность и защита активов</td></tr>
+        </table>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">🏢 Структура компании</div>
+
+        <div class="speak">
+          <div class="speak-label">Говоришь</div>
+          <p>Компания регистрируется как [тип компании] — стандартная структура для [страны]. Один директор и один акционер — достаточно, это может быть одно лицо.</p>
+          <p>[Если реестр публичный и нужна конфиденциальность:] Реестр в [стране] открытый — любой может посмотреть кто директор и акционер. Исходя из того что вы сказали про конфиденциальность — ставим номинального директора и акционера. Ваше имя нигде не фигурирует публично, при этом вы управляете компанией полностью через трастовую декларацию и генеральную доверенность. Номинал не имеет никакого реального влияния.</p>
+        </div>
+
+        <div class="cond-block">
+          <div class="cond-if">Если клиент спросил "а что такое трастовая декларация?"</div>
+          <div class="cond-then">Это юридический документ который подтверждает что настоящий владелец — вы. Номинал подписывает что действует только в ваших интересах и по вашим указаниям. Стандартная практика — тысячи компаний работают так.</div>
+        </div>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">🏦 Банк <span>Рекомендуй один конкретный вариант — не перечисляй все</span></div>
+
+        <div class="speak">
+          <div class="speak-label">Говоришь</div>
+          <p>Исходя из того что вы сказали про [валюта / готовность ехать] — рекомендую [вариант]. Вот почему: [причина под их ситуацию]. Другие варианты тоже есть, можно добавить второй счёт позже — но это лучшее начало под вас.</p>
+        </div>
+
+        <h3>Шпаргалка по банкам</h3>
+        <table>
+          <tr><th>Ситуация клиента</th><th>Рекомендация</th><th>Стоимость</th><th>Срок</th></tr>
+          <tr><td>Нужна CNY, готов ехать</td><td>Chouzhou Bank (Китай) — USD/EUR/CNY/RUB</td><td>$6,000</td><td>~2 мес + 1–2 дня визит</td></tr>
+          <tr><td>HK компания, всё удалённо</td><td>HK Online Bank — видеоверификация</td><td>уточнить</td><td>~2 недели</td></tr>
+          <tr><td>Нужен EUR IBAN</td><td>EMI (UK-based) — мультивалютный</td><td>€1,900</td><td>1–2 недели</td></tr>
+          <tr><td>EU компания, традиционный банк</td><td>UniCredit / Tatra Banka / Magnetiq</td><td>€3,900</td><td>3–4 недели</td></tr>
+          <tr><td>EU компания, быстро</td><td>Montify EMI</td><td>€1,900</td><td>1–2 недели</td></tr>
+        </table>
+
+        <div class="cond-block">
+          <div class="cond-if">Если нет визы в Китай, но нужен Chouzhou Bank</div>
+          <div class="cond-then">В Китае можно находиться до 140 часов без визы — транзит из третьей страны. Или через Сингапур — 96 часов транзитной зоны. Этого хватает для подписания документов. Наши клиенты делают именно так.</div>
+        </div>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">📊 Бухгалтерия <span>Хорошие новости — заканчивай на позитиве</span></div>
+
+        <div class="speak">
+          <div class="speak-label">Говоришь</div>
+          <p>[Если Гонконг:] По бухгалтерии — Гонконг требует ежегодную отчётность и аудит. Но первый аудит нужен только через 18 месяцев после регистрации. То есть вы регистрируетесь, открываете счёт, начинаете работать — и разбираемся с отчётностью когда подойдёт время. Сейчас платите только за компанию и счёт.</p>
+          <p>[Если EU:] Ежегодная подача отчётности обязательна — мы это ведём полностью. Бухгалтерия от [цена]/мес. Сразу при регистрации подключать необязательно — скажем когда подойдёт время.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 4 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s4">4</div>
+      <div>
+        <div class="stage-title">Итог</div>
+        <div class="stage-sub">~3 минуты · Резюме · Сумма · Сроки · Что получает</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="speak">
+        <div class="speak-label">Говоришь — резюмируй всё</div>
+        <p>Давайте подведу итог по тому что мы обсудили.</p>
+      </div>
+
+      <div class="summary-box">
+        <h3>Шаблон итога (заполни под клиента)</h3>
+        <div class="summary-line"><span class="sl-label">Компания</span><span class="sl-value">[тип компании] в [страна] — регистрация [удалённо / с визитом], [срок] недели</span></div>
+        <div class="summary-line"><span class="sl-label">Налог</span><span class="sl-value">[ставка]% — потому что [причина под бизнес клиента]</span></div>
+        <div class="summary-line"><span class="sl-label">Конфиденциальность</span><span class="sl-value">[Номинальный директор и акционер — ваше имя нигде не фигурирует / Реестр публичный — ваше имя будет видно]</span></div>
+        <div class="summary-line"><span class="sl-label">Банк</span><span class="sl-value">[вариант банка] — [удалённо / визит], готов через [срок]</span></div>
+        <div class="summary-line"><span class="sl-label">Бухгалтерия</span><span class="sl-value">[Не нужна первые 18 мес / от X в месяц — подключим когда подойдёт время]</span></div>
+        <div class="summary-line"><span class="sl-label">Итого</span><span class="sl-value">~[сумма] — чтобы быть полностью операционным</span></div>
+        <div class="summary-line"><span class="sl-label">Общий срок</span><span class="sl-value">[X] недель с момента старта</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 5 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s5">5</div>
+      <div>
+        <div class="stage-title">Закрытие</div>
+        <div class="stage-sub">Всегда заканчивай конкретным следующим шагом</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="close-card">
+        <div class="close-tag soft">Мягкое закрытие — клиент тёплый</div>
+        <div class="speak"><div class="speak-label">Говоришь</div><p>Давайте я пришлю вам полный расчёт с разбивкой — займёт у меня час. На какую почту отправить?</p></div>
+      </div>
+
+      <div class="close-card">
+        <div class="close-tag hard">Жёсткое закрытие — клиент готов</div>
+        <div class="speak"><div class="speak-label">Говоришь</div><p>Отлично. Тогда для старта мне нужно немного — паспорт, подтверждение адреса и три варианта названия компании. Могу прислать форму прямо сейчас — сделаем?</p></div>
+      </div>
+
+      <div class="close-card">
+        <div class="close-tag cold">Клиент не готов — сохрани контакт</div>
+        <div class="speak"><div class="speak-label">Говоришь</div><p>Без проблем. Пришлю вам резюме того что обсудили — чтобы было под рукой. Когда удобно созвониться ещё раз — через неделю?</p></div>
+      </div>
+
+      <hr class="divider">
+      <h3>Возражения</h3>
+
+      <div class="obj">
+        <div class="obj-q">"Это дорого"</div>
+        <div class="obj-a">Давайте разобьём. Начнём с компании — [цена]. Вы уже зарегистрированы, можете подписывать контракты и выставлять счета. Банк — отдельным шагом. Если берёте удалённый вариант — итого [цена], и вы полностью операционны. Не обязательно делать всё сразу.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"Подумаю"</div>
+        <div class="obj-a">Конечно, время нужно. Просто имейте в виду — регистрация занимает [срок] с момента старта. У вас есть встреча с поставщиком или контракт где нужна компания? Если есть дата — надо учитывать это время.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"Можно сделать самому / дешевле у других"</div>
+        <div class="obj-a">Можно — реестры технически публичные. Но что клиенты не учитывают: номинальный сервис, банковский комплаенс, апостили, ежегодные обязательства по отчётности. Мы делаем это сотни раз по 30+ юрисдикциям. Разница в том что мы знаем что банки реально принимают — и ведём процесс там где он застревает.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"Сравниваю с другими компаниями"</div>
+        <div class="obj-a">Правильно — сравнивайте. Уточните у них: используют ли они номиналов именно из той юрисдикции? Есть ли прямые отношения с банками или просто "знакомства"? Что происходит если что-то пошло не так после регистрации? Наши клиенты возвращаются за второй и третьей компанией — это лучший показатель.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"Не уверен какая юрисдикция подходит"</div>
+        <div class="obj-a">Именно для этого я здесь. Всё сводится к трём вещам: где ваши клиенты, где хотите держать счёт, насколько важна налоговая эффективность. Исходя из того что вы рассказали — я бы рекомендовал [юрисдикция]. Вот почему...</div>
+      </div>
+
+      <hr class="divider">
+      <h3>Запрос документов</h3>
+
+      <div class="close-card">
+        <div class="close-tag docs">Что нужно для старта</div>
+        <div class="speak">
+          <div class="speak-label">Говоришь</div>
+          <p>Для регистрации нужно немного — пришлите пожалуйста:</p>
+        </div>
+        <ul class="docs-list" style="margin-top:12px;">
+          <li>Копия паспорта (хорошее качество скана)</li>
+          <li>Подтверждение адреса — выписка из банка или коммунальный счёт</li>
+          <li>Три варианта названия компании (в порядке предпочтения)</li>
+          <li>Краткое описание бизнеса (3–4 предложения)</li>
+          <li>Для банка — те же документы + заполненные банковские формы (пришлём)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num" style="background:#1a1a3a;color:#9d8cff;">⚡</div>
+      <div>
+        <div class="stage-title">Быстрая шпаргалка — кому что предлагать</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <table>
+        <tr><th>Тип клиента</th><th>Лучшее решение</th></tr>
+        <tr><td>EU бизнес + нужен номинальный директор</td><td>🇸🇰 Slovakia SRO</td></tr>
+        <tr><td>IT / SaaS / digital, хочет 0% налог</td><td>🇪🇪 Estonia OÜ</td></tr>
+        <tr><td>Минимальный EU налог (9%)</td><td>🇭🇺 Hungary KFT</td></tr>
+        <tr><td>EU + Baltic banking</td><td>🇱🇻 Latvia SIA</td></tr>
+        <tr><td>EU + 0% дивиденды + IP Box</td><td>🇨🇾 Cyprus Ltd</td></tr>
+        <tr><td>Торговля с Китаем / азиатские клиенты</td><td>🇭🇰 Hong Kong Ltd</td></tr>
+        <tr><td>Офшор, холдинг, защита активов — бюджетно</td><td>🇸🇨 Сейшелы</td></tr>
+        <tr><td>Офшор + репутация для банков</td><td>🇻🇬 BVI</td></tr>
+        <tr><td>Максимальная конфиденциальность</td><td>🇰🇳 Невис</td></tr>
+        <tr><td>Только счёт, быстро</td><td>Montify EMI (€1,900)</td></tr>
+        <tr><td>Только счёт, традиционный банк</td><td>UniCredit / Tatra / Magnetiq (€3,900)</td></tr>
+        <tr><td>Релокация + бизнес</td><td>🇷🇸 Сербия / 🇵🇹 Португалия / 🇦🇪 ОАЭ / 🇭🇺 Венгрия</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ===== ENGLISH ===== -->
+<div id="en" class="block">
+<div class="content">
+
+  <div class="info">Follow the stages in order. After each client answer — react, show you understood, then move to the next question. This is a conversation, not a form.</div>
+
+  <!-- STAGE 1 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s1">1</div>
+      <div>
+        <div class="stage-title">Opening</div>
+        <div class="stage-sub">~2 minutes · Build trust · Get permission to ask questions</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <h3>Inbound (client reached out)</h3>
+      <div class="speak">
+        <div class="speak-label">You say</div>
+        <p>Hi [Name], this is [Your Name] from Prifinance. Thanks for getting in touch — let's figure out what works best for your situation.</p>
+        <p>Before I go through the options, can I ask you a couple of quick questions? I want to understand your setup so I'm not recommending something that doesn't fit.</p>
+      </div>
+
+      <h3>Cold (you're calling first)</h3>
+      <div class="speak">
+        <div class="speak-label">You say</div>
+        <p>Hi [Name], this is [Your Name] from Prifinance. We help international businesses register companies and open bank accounts — Europe, Asia, offshore structures. 28 years in the market, 11,000+ clients worldwide, offices in Dubai, Tallinn, London, Prague.</p>
+        <p>You left a request about company registration or account opening — right? Here's what I'd suggest: let me ask you a couple of questions first so I understand your situation, then I'll walk you through what actually fits — sound good?</p>
+      </div>
+
+      <div class="tip">Don't ask "is this a good time?" — you give them an easy exit. If they ask for the price straight away: "I'll get to the numbers — I just need 2 minutes to understand your setup, otherwise I'll quote you the wrong package."</div>
+
+      <h3>If client already spoke to competitors</h3>
+      <div class="speak">
+        <div class="speak-label">You say</div>
+        <p>Quick question — are you mainly comparing prices on the same jurisdiction, or if we find something that works better for your situation, are you open to looking at that too?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 2 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s2">2</div>
+      <div>
+        <div class="stage-title">Qualification</div>
+        <div class="stage-sub">~7 minutes · 6 questions · React after every answer</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="q-item">
+        <div class="q-num">Question 1 — Business</div>
+        <div class="q-ask">"What kind of business are you running — and where are your clients and partners based?"</div>
+        <div class="q-why">This determines the jurisdiction. China trade → Hong Kong. EU partners → EU company. Digital business → Estonia or Latvia. Some activities need a licence — better to know now.</div>
+        <div class="q-tip">→ After their answer: "So you're [describe business] — clients in [location], suppliers in [location]. Got it — that's a setup we work with all the time."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Question 2 — Privacy</div>
+        <div class="q-ask">"Is it important that your name doesn't appear publicly — as director and shareholder?"</div>
+        <div class="q-why">Many jurisdictions (HK, UK, some EU) have a public registry. If privacy matters — we need a nominee structure. This changes the setup and price — need to know before presenting.</div>
+        <div class="q-tip">→ If yes: "No problem — we put a nominee director and shareholder in place. Your name doesn't appear anywhere publicly, but you stay in full control through a Trust Declaration and Power of Attorney. I'll explain how that works."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Question 3 — Banking</div>
+        <div class="q-ask">"Do you need a bank account as well? And what currencies do you mainly work in — USD, EUR, something else?"</div>
+        <div class="q-why">Banking is usually the real pain point. The currency question determines which bank makes sense. CNY → Chouzhou Bank. EUR → EMI with UK IBAN. Fast and remote → online bank.</div>
+        <div class="q-tip">→ After their answer: "Good to know — that actually changes which banking option I'd recommend for you."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Question 4 — Travel</div>
+        <div class="q-ask">"Are you okay with a short trip — say 1–2 days — if it's needed for the bank? Or does everything need to be fully remote?"</div>
+        <div class="q-why">Some banking options require an in-person visit. Chouzhou Bank (China) — 1–2 days on-site. If they can't travel — online bank or EMI, both fully remote.</div>
+        <div class="q-tip">→ If they can't travel: "That's fine — we have two fully remote options that work just as well."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Question 5 — Timeline</div>
+        <div class="q-ask">"Is there a deadline you're working towards — a supplier contract, a partner meeting, a launch date?"</div>
+        <div class="q-why">Urgency is the main lever for closing. If there's a deadline — use it.</div>
+        <div class="q-tip">→ If there is one: "Then we need to move — registration takes [timeframe] once we start. If your meeting is in [X], we're actually cutting it close."</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">Question 6 — Relocation (if there's a hint)</div>
+        <div class="q-ask">"Are you also thinking about relocating — yourself or your family? Or is this purely a business structure?"</div>
+        <div class="q-why">If yes — upsell on residency through business (Serbia, Portugal, UAE, Hungary).</div>
+        <div class="q-tip">→ If yes: "Interesting — there's a good option where we register the company and set up residency at the same time. I'll walk you through it."</div>
+      </div>
+
+      <div class="speak" style="margin-top:16px;">
+        <div class="speak-label">Transition to presentation</div>
+        <p>Good — that gives me exactly what I need. Based on what you've told me, let me walk you through the setup that makes the most sense for you. I'll cover the tax side, how the company is structured, banking, and then give you the full numbers.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 3 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s3">3</div>
+      <div>
+        <div class="stage-title">Presentation</div>
+        <div class="stage-sub">~10 minutes · Taxes → Structure → Banking → Accounting · Adapt to their answers</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="pres">
+        <div class="pres-title">💰 Taxes <span>Always start here — this is the hook</span></div>
+
+        <div class="speak">
+          <div class="speak-label">You say</div>
+          <p>Here's the key thing about [jurisdiction] — and it's what makes it so strong for your specific situation.</p>
+          <p>[Explain the tax advantage specifically tied to their business model]</p>
+          <p>This isn't a loophole or a grey area — it's written into [country] law. Thousands of international companies use exactly this structure, and it's fully compliant.</p>
+        </div>
+
+        <div class="tip">Let the numbers land. After "0% tax" — pause for a second, then confirm: "Yes, exactly — because your business genuinely operates internationally. That's what the law is designed for."</div>
+
+        <h3>Tax cheat sheet</h3>
+        <table>
+          <tr><th>Jurisdiction</th><th>CIT</th><th>Dividends</th><th>Key argument</th></tr>
+          <tr><td>🇭🇰 Hong Kong</td><td>0% offshore / 8.25–16.5% local</td><td>0%</td><td>Income from outside HK is not taxed at all</td></tr>
+          <tr><td>🇪🇪 Estonia</td><td>0% until you distribute</td><td>22% on distribution</td><td>You only pay tax when you take money out</td></tr>
+          <tr><td>🇭🇺 Hungary</td><td>9%</td><td>0% non-residents</td><td>Lowest corporate tax in the EU</td></tr>
+          <tr><td>🇸🇰 Slovakia</td><td>22%</td><td>—</td><td>Full EU legitimacy, nominee director available</td></tr>
+          <tr><td>🇱🇻 Latvia</td><td>0% undistributed</td><td>20% on distribution</td><td>EU + Baltic banking infrastructure</td></tr>
+          <tr><td>🇨🇾 Cyprus</td><td>12.5%</td><td>0% non-residents</td><td>EU + IP Box regime for royalties</td></tr>
+          <tr><td>🇮🇲 Isle of Man</td><td>0%</td><td>0%</td><td>Full offshore, holding, asset protection</td></tr>
+          <tr><td>🇰🇳 Nevis / 🇻🇬 BVI / 🇸🇨 Seychelles</td><td>0%</td><td>0%</td><td>Pure offshore — privacy and asset protection</td></tr>
+        </table>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">🏢 Company Structure</div>
+
+        <div class="speak">
+          <div class="speak-label">You say</div>
+          <p>The company you'd register is a [company type] — the standard [country] structure. One director and one shareholder is enough — that can be the same person.</p>
+          <p>[If public registry and privacy matters:] The registry in [country] is public — anyone can look up who the director and shareholder are. Based on what you told me about privacy, we'd set up a nominee director and shareholder. Your name appears nowhere publicly, but you're in full control through a Trust Declaration and General Power of Attorney. The nominee has zero real influence on anything.</p>
+        </div>
+
+        <div class="cond-block">
+          <div class="cond-if">If client asks "what's a Trust Declaration?"</div>
+          <div class="cond-then">It's a legal document that confirms you're the true owner. The nominee signs that they act only in your interest and on your instructions. Standard practice — used by thousands of international business owners.</div>
+        </div>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">🏦 Banking <span>Recommend one option — don't list everything</span></div>
+
+        <div class="speak">
+          <div class="speak-label">You say</div>
+          <p>Based on what you told me about [currency / travel] — I'd go with [option]. Here's why: [reason tied to their situation]. Other options exist and you can add a second account later — but this is the one that fits your setup right now.</p>
+        </div>
+
+        <h3>Banking cheat sheet</h3>
+        <table>
+          <tr><th>Client situation</th><th>Recommendation</th><th>Cost</th><th>Timeline</th></tr>
+          <tr><td>Needs CNY, can travel</td><td>Chouzhou Bank (China) — USD/EUR/CNY/RUB</td><td>$6,000</td><td>~2 months + 1–2 day visit</td></tr>
+          <tr><td>HK company, everything remote</td><td>HK Online Bank — video verification</td><td>ask manager</td><td>~2 weeks</td></tr>
+          <tr><td>Needs EUR IBAN</td><td>EMI (UK-based) — multi-currency</td><td>€1,900</td><td>1–2 weeks</td></tr>
+          <tr><td>EU company, traditional bank</td><td>UniCredit / Tatra Banka / Magnetiq</td><td>€3,900</td><td>3–4 weeks</td></tr>
+          <tr><td>EU company, fast</td><td>Montify EMI</td><td>€1,900</td><td>1–2 weeks</td></tr>
+        </table>
+
+        <div class="cond-block">
+          <div class="cond-if">If no China visa but Chouzhou Bank needed</div>
+          <div class="cond-then">China allows up to 140 hours visa-free transit — fly in from a third country, sign the documents, fly out. Or use Singapore — 96-hour transit zone, no visa needed. Our clients do this regularly. It's 1–2 days.</div>
+        </div>
+      </div>
+
+      <div class="pres">
+        <div class="pres-title">📊 Accounting <span>Good news — end on a positive</span></div>
+
+        <div class="speak">
+          <div class="speak-label">You say</div>
+          <p>[If Hong Kong:] On accounting — Hong Kong requires annual reporting and an audit. But the first audit is only due 18 months after registration. So you register, open your account, start trading — and we handle the books when the time comes. Right now you only pay for the company and the bank account.</p>
+          <p>[If EU:] Annual filing is required — we manage all of it. Monthly accounting starts at [price]. No need to set it up from day one — we'll walk you through it when the time comes.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 4 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s4">4</div>
+      <div>
+        <div class="stage-title">Summary</div>
+        <div class="stage-sub">~3 minutes · Total price · Timeline · What they get</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="speak">
+        <div class="speak-label">You say</div>
+        <p>Let me pull together everything we've covered.</p>
+      </div>
+
+      <div class="summary-box">
+        <h3>Summary template (fill in for each client)</h3>
+        <div class="summary-line"><span class="sl-label">Company</span><span class="sl-value">[company type] in [country] — registration [remote / requires visit], [X] weeks</span></div>
+        <div class="summary-line"><span class="sl-label">Tax</span><span class="sl-value">[rate]% — because [reason tied to their business model]</span></div>
+        <div class="summary-line"><span class="sl-label">Privacy</span><span class="sl-value">[Nominee director and shareholder — name not public / Registry is public — name will be visible]</span></div>
+        <div class="summary-line"><span class="sl-label">Banking</span><span class="sl-value">[bank option] — [remote / short visit], ready in [X weeks]</span></div>
+        <div class="summary-line"><span class="sl-label">Accounting</span><span class="sl-value">[Not needed for 18 months / from $X/month — we'll set it up when the time comes]</span></div>
+        <div class="summary-line"><span class="sl-label">Total</span><span class="sl-value">~[price] to be fully operational</span></div>
+        <div class="summary-line"><span class="sl-label">Total timeline</span><span class="sl-value">[X] weeks from the moment we start</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STAGE 5 -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num s5">5</div>
+      <div>
+        <div class="stage-title">Close</div>
+        <div class="stage-sub">Always end with a clear next step</div>
+      </div>
+    </div>
+    <div class="stage-body">
+
+      <div class="close-card">
+        <div class="close-tag soft">Soft close — client is interested</div>
+        <div class="speak"><div class="speak-label">You say</div><p>Let me send you a full quote with the breakdown — takes me about an hour. What's the best email for you?</p></div>
+      </div>
+
+      <div class="close-card">
+        <div class="close-tag hard">Hard close — client is ready</div>
+        <div class="speak"><div class="speak-label">You say</div><p>Great. To get started I just need a few things — passport copy, proof of address, and three company name options. I can send you the onboarding form right now. Shall we do that?</p></div>
+      </div>
+
+      <div class="close-card">
+        <div class="close-tag cold">Client not ready — keep the contact</div>
+        <div class="speak"><div class="speak-label">You say</div><p>No problem. I'll send you a summary of what we covered — so you have it to refer back to. When's a good time to reconnect — say, in a week?</p></div>
+      </div>
+
+      <hr class="divider">
+      <h3>Objections</h3>
+
+      <div class="obj">
+        <div class="obj-q">"It's too expensive."</div>
+        <div class="obj-a">Let's stage it. Start with just the company — [price]. You're registered, you can sign contracts and issue invoices. Bank account is a separate step. If you go with the remote option, total is [price] — and that's everything you need to be fully operational. No need to do it all at once.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"I need to think about it."</div>
+        <div class="obj-a">Of course — take the time you need. One thing worth keeping in mind: registration takes [X weeks] once we start. Do you have any supplier meetings or contracts coming up where you'll need the company in place? If there's a date, let's factor that in.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"I can do this myself / find it cheaper."</div>
+        <div class="obj-a">You can — the registry process is technically public. But what people don't anticipate: the nominee arrangements, banking compliance, apostille chains, and ongoing statutory filings. We've done this hundreds of times across 30+ jurisdictions. The difference is we know exactly what banks accept — and we handle the parts that get stuck.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"I'm comparing you with other companies."</div>
+        <div class="obj-a">Makes sense — you should compare. A few things worth checking: do they use nominees from the actual jurisdiction? Do they have direct banking relationships or just introductions? And what happens if something goes wrong after setup? Our clients come back for the second and third company. That's the benchmark I'd use.</div>
+      </div>
+
+      <div class="obj">
+        <div class="obj-q">"Not sure which jurisdiction is right."</div>
+        <div class="obj-a">That's exactly why I'm here. It comes down to three things: where your clients are, where you want to bank, and how much tax efficiency matters to you. Based on what you told me — I'd go with [jurisdiction]. Here's why...</div>
+      </div>
+
+      <hr class="divider">
+      <h3>Documents request</h3>
+
+      <div class="close-card">
+        <div class="close-tag docs">What we need to get started</div>
+        <div class="speak">
+          <div class="speak-label">You say</div>
+          <p>To get the process started, just send me the following:</p>
+        </div>
+        <ul class="docs-list" style="margin-top:12px;">
+          <li>Passport copy (good quality scan)</li>
+          <li>Proof of address — bank statement or utility bill</li>
+          <li>Three company name options (in order of preference)</li>
+          <li>Short business description (3–4 sentences)</li>
+          <li>For the bank — same docs + completed bank forms (we'll send you these)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-num" style="background:#1a1a3a;color:#9d8cff;">⚡</div>
+      <div>
+        <div class="stage-title">Quick reference — who needs what</div>
+      </div>
+    </div>
+    <div class="stage-body">
+      <table>
+        <tr><th>Client type</th><th>Best solution</th></tr>
+        <tr><td>EU business + needs nominee director</td><td>🇸🇰 Slovakia SRO</td></tr>
+        <tr><td>IT / SaaS / digital, wants 0% tax</td><td>🇪🇪 Estonia OÜ</td></tr>
+        <tr><td>Lowest EU tax (9%)</td><td>🇭🇺 Hungary KFT</td></tr>
+        <tr><td>EU + Baltic banking</td><td>🇱🇻 Latvia SIA</td></tr>
+        <tr><td>EU + 0% dividends + IP Box</td><td>🇨🇾 Cyprus Ltd</td></tr>
+        <tr><td>China trade / Asian clients</td><td>🇭🇰 Hong Kong Ltd</td></tr>
+        <tr><td>Offshore, holding, assets — budget</td><td>🇸🇨 Seychelles</td></tr>
+        <tr><td>Offshore + bank reputation</td><td>🇻🇬 BVI</td></tr>
+        <tr><td>Maximum privacy</td><td>🇰🇳 Nevis</td></tr>
+        <tr><td>Account only, fast</td><td>Montify EMI (€1,900)</td></tr>
+        <tr><td>Account only, traditional bank</td><td>UniCredit / Tatra / Magnetiq (€3,900)</td></tr>
+        <tr><td>Relocation + business</td><td>🇷🇸 Serbia / 🇵🇹 Portugal / 🇦🇪 UAE / 🇭🇺 Hungary</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function switchLang(lang, btn) {
+  document.querySelectorAll('.block').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.lang-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(lang).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
