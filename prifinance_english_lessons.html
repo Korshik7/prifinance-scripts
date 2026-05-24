@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prifinance English — Sales Course</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+
+  .header { background: linear-gradient(135deg, #1a1f2e 0%, #16213e 100%); padding: 28px 40px; border-bottom: 1px solid #2d3748; }
+  .header h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .header p { font-size: 13px; color: #718096; margin-top: 4px; }
+
+  .tabs { display: flex; background: #161b27; border-bottom: 1px solid #2d3748; padding: 0 40px; }
+  .tab { padding: 16px 24px; font-size: 13px; font-weight: 600; color: #718096; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .tab:hover { color: #a0aec0; }
+  .tab.active { color: #63b3ed; border-bottom-color: #63b3ed; }
+
+  .content { padding: 36px 40px; max-width: 960px; }
+  .lesson { display: none; }
+  .lesson.active { display: block; }
+
+  .lesson-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .lesson-subtitle { font-size: 13px; color: #718096; margin-bottom: 32px; }
+
+  .section { margin-bottom: 36px; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: #63b3ed; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #2d3748; }
+
+  .card { background: #1a2035; border: 1px solid #2d3748; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+  .card-title { font-size: 14px; font-weight: 600; color: #e2e8f0; margin-bottom: 8px; }
+  .card-desc { font-size: 13px; color: #a0aec0; line-height: 1.7; }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vocab-item { background: #1a2035; border: 1px solid #2d3748; border-radius: 8px; padding: 16px 18px; }
+  .vocab-word { font-size: 14px; font-weight: 700; color: #63b3ed; margin-bottom: 4px; }
+  .vocab-def { font-size: 12px; color: #a0aec0; line-height: 1.5; margin-bottom: 6px; }
+  .vocab-example { font-size: 12px; color: #68d391; font-style: italic; }
+
+  .pattern-box { background: #0d1b2a; border-left: 3px solid #63b3ed; border-radius: 0 8px 8px 0; padding: 16px 20px; margin-bottom: 10px; }
+  .pattern-name { font-size: 12px; font-weight: 700; color: #63b3ed; margin-bottom: 8px; }
+  .pattern-rule { font-size: 13px; color: #a0aec0; margin-bottom: 10px; }
+  .pattern-examples { list-style: none; }
+  .pattern-examples li { font-size: 13px; color: #e2e8f0; padding: 4px 0 4px 16px; position: relative; }
+  .pattern-examples li::before { content: '→'; position: absolute; left: 0; color: #63b3ed; }
+
+  .drill-box { background: #1a2035; border: 1px solid #2d3748; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+  .drill-title { font-size: 13px; font-weight: 700; color: #f6ad55; margin-bottom: 14px; }
+  .drill-item { margin-bottom: 14px; }
+  .drill-prompt { font-size: 13px; color: #a0aec0; margin-bottom: 4px; }
+  .drill-client { font-size: 13px; color: #e2e8f0; font-style: italic; margin-bottom: 4px; }
+  .drill-answer { font-size: 13px; color: #68d391; margin-top: 6px; display: none; background: #0d1b2a; border-radius: 6px; padding: 10px 14px; line-height: 1.6; }
+  .show-btn { font-size: 11px; background: #2d3748; color: #a0aec0; border: none; border-radius: 4px; padding: 3px 10px; cursor: pointer; margin-top: 4px; }
+  .show-btn:hover { background: #3d4f68; }
+
+  .roleplay-box { background: #1a2035; border: 1px solid #38503c; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+  .roleplay-header { background: #1e3a23; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .roleplay-title { font-size: 13px; font-weight: 700; color: #68d391; }
+  .roleplay-tag { font-size: 11px; background: #2d5a34; color: #68d391; padding: 3px 10px; border-radius: 20px; }
+  .roleplay-body { padding: 20px 24px; }
+  .client-card { background: #0d1b2a; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; }
+  .client-card-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #f6ad55; text-transform: uppercase; margin-bottom: 10px; }
+  .client-info { font-size: 13px; color: #a0aec0; line-height: 1.8; }
+  .client-info strong { color: #e2e8f0; }
+  .task-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #63b3ed; text-transform: uppercase; margin-bottom: 8px; margin-top: 14px; }
+  .task-list { list-style: none; }
+  .task-list li { font-size: 13px; color: #a0aec0; padding: 3px 0 3px 16px; position: relative; }
+  .task-list li::before { content: '✓'; position: absolute; left: 0; color: #68d391; font-size: 11px; }
+  .debrief { background: #1e1a0d; border-radius: 8px; padding: 14px 18px; margin-top: 14px; }
+  .debrief-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #f6ad55; text-transform: uppercase; margin-bottom: 8px; }
+  .debrief-q { font-size: 13px; color: #a0aec0; padding: 4px 0 4px 14px; position: relative; }
+  .debrief-q::before { content: '?'; position: absolute; left: 0; color: #f6ad55; font-weight: 700; font-size: 11px; }
+
+  .objection-card { background: #1a2035; border: 1px solid #2d3748; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .obj-trigger { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .obj-text { font-size: 14px; font-weight: 600; color: #fc8181; }
+  .obj-arrow { color: #718096; font-size: 14px; transition: transform 0.2s; }
+  .obj-body { padding: 0 20px 18px; display: none; }
+  .obj-body.open { display: block; }
+  .obj-response { font-size: 13px; color: #68d391; line-height: 1.7; background: #0d1b2a; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; }
+  .obj-note { font-size: 12px; color: #718096; font-style: italic; }
+
+  .hw-box { background: #1a1a2e; border: 1px solid #3d3d6b; border-radius: 10px; padding: 20px 24px; }
+  .hw-title { font-size: 13px; font-weight: 700; color: #b794f4; margin-bottom: 12px; }
+  .hw-item { font-size: 13px; color: #a0aec0; padding: 5px 0 5px 18px; position: relative; line-height: 1.5; }
+  .hw-item::before { content: '→'; position: absolute; left: 0; color: #b794f4; }
+
+  .info-box { background: #1a2035; border-left: 3px solid #f6ad55; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 14px; }
+  .info-box p { font-size: 13px; color: #a0aec0; line-height: 1.6; }
+  .info-box strong { color: #f6ad55; }
+
+  .phrase-list { list-style: none; }
+  .phrase-list li { font-size: 13px; color: #e2e8f0; padding: 8px 0 8px 20px; position: relative; border-bottom: 1px solid #1e2a3a; line-height: 1.5; }
+  .phrase-list li:last-child { border-bottom: none; }
+  .phrase-list li::before { content: '»'; position: absolute; left: 0; color: #63b3ed; }
+  .phrase-note { font-size: 12px; color: #718096; margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PRIFINANCE ENGLISH — Sales Communication Course</h1>
+  <p>B2 · Spoken English for International Sales · 3 Lessons</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showLesson(0)">Lesson 1 — Grammar &amp; Vocabulary</div>
+  <div class="tab" onclick="showLesson(1)">Lesson 2 — Opening &amp; Qualification</div>
+  <div class="tab" onclick="showLesson(2)">Lesson 3 — Objections &amp; Closing</div>
+</div>
+
+<div class="content">
+
+<!-- ======== LESSON 1 ======== -->
+<div class="lesson active" id="lesson-0">
+  <div class="lesson-title">Lesson 1 — Grammar Patterns for Sales</div>
+  <div class="lesson-subtitle">Three grammar structures you use on every call — with real Prifinance examples</div>
+
+  <div class="section">
+    <div class="section-label">Vocabulary — 10 key terms</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-word">jurisdiction</div>
+        <div class="vocab-def">A country or region where a company is registered and follows local law.</div>
+        <div class="vocab-example">"We work with 30+ jurisdictions — Europe, Asia, offshore."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">tax rate</div>
+        <div class="vocab-def">The percentage of profit paid as tax.</div>
+        <div class="vocab-example">"The tax rate in Cyprus is 12.5% — one of the lowest in the EU."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">dividend</div>
+        <div class="vocab-def">Money paid to company owners from the profit.</div>
+        <div class="vocab-example">"In Estonia, you only pay tax when you take out a dividend."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">nominee</div>
+        <div class="vocab-def">A person who appears in official documents but has no real control.</div>
+        <div class="vocab-example">"Your name appears nowhere — we use a nominee director."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">compliance</div>
+        <div class="vocab-def">Following all legal rules required by banks and regulators.</div>
+        <div class="vocab-example">"Banks in Cyprus have strict compliance — they need a lot of documents."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">beneficial owner</div>
+        <div class="vocab-def">The real person who owns and controls the company.</div>
+        <div class="vocab-example">"You are the beneficial owner — the nominee has no real power."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">incorporation</div>
+        <div class="vocab-def">The process of officially registering a company.</div>
+        <div class="vocab-example">"Incorporation in Estonia takes 3–5 business days."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">EMI</div>
+        <div class="vocab-def">Electronic Money Institution — like a bank, but easier to open. Does SEPA, SWIFT, multi-currency.</div>
+        <div class="vocab-example">"We open an EMI account remotely — no visit needed."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">substance</div>
+        <div class="vocab-def">Real physical presence in a country — office, employees, local director.</div>
+        <div class="vocab-example">"Local banks require substance — a real connection to the country."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">territorial taxation</div>
+        <div class="vocab-def">A tax system where only income earned inside the country is taxed.</div>
+        <div class="vocab-example">"Hong Kong uses territorial taxation — income from outside is not taxed."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Grammar — Pattern 1: Present Simple</div>
+    <div class="info-box"><p><strong>When to use:</strong> Facts, tax rates, rules, how things work. You use this every time you explain a jurisdiction to a client.</p></div>
+    <div class="pattern-box">
+      <div class="pattern-name">STRUCTURE: Subject + verb (base form)</div>
+      <div class="pattern-rule">Use for permanent facts and standard conditions.</div>
+      <ul class="pattern-examples">
+        <li>The tax rate in Cyprus <strong>is</strong> 12.5%.</li>
+        <li>Hong Kong <strong>uses</strong> territorial taxation.</li>
+        <li>Registration <strong>takes</strong> 3–5 business days.</li>
+        <li>The registry in Estonia <strong>is</strong> public — anyone can look it up.</li>
+        <li>We <strong>work</strong> with clients in 30+ jurisdictions.</li>
+        <li>A nominee director <strong>appears</strong> in documents but <strong>has</strong> no real control.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Grammar — Pattern 2: Present Perfect</div>
+    <div class="info-box"><p><strong>When to use:</strong> Your experience, results, what you have done. Use this to build trust with the client.</p></div>
+    <div class="pattern-box">
+      <div class="pattern-name">STRUCTURE: have/has + past participle</div>
+      <div class="pattern-rule">Use for experience and completed results that are still relevant now.</div>
+      <ul class="pattern-examples">
+        <li>We <strong>have registered</strong> over 11,000 companies worldwide.</li>
+        <li>We <strong>have worked</strong> with clients from the UAE, Pakistan, and France.</li>
+        <li><strong>Have</strong> you ever <strong>used</strong> an offshore structure before?</li>
+        <li>I <strong>have already sent</strong> you the quote — check your email.</li>
+        <li>Our clients <strong>have come</strong> back for their second and third company.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Grammar — Pattern 3: First Conditional</div>
+    <div class="info-box"><p><strong>When to use:</strong> Proposals, timelines, recommendations. Your main tool for creating urgency and making offers.</p></div>
+    <div class="pattern-box">
+      <div class="pattern-name">STRUCTURE: If + present simple, will/can + verb</div>
+      <div class="pattern-rule">Use for real, likely situations — offers and consequences.</div>
+      <ul class="pattern-examples">
+        <li>If you <strong>register</strong> now, you <strong>can start</strong> in 2 weeks.</li>
+        <li>If privacy <strong>is</strong> important, we <strong>can arrange</strong> a nominee director.</li>
+        <li>If you <strong>have</strong> a deadline, we <strong>should move</strong> quickly.</li>
+        <li>If you <strong>need</strong> CNY, I <strong>will recommend</strong> Chouzhou Bank.</li>
+        <li>If the registry <strong>is</strong> public, we <strong>can keep</strong> your name private with a nominee.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Speaking Drills</div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 1 — Change the country (Present Simple)</div>
+      <div class="info-box" style="margin-bottom:14px"><p>Say the sentence out loud. Then replace the country and number.</p></div>
+      <div class="drill-item">
+        <div class="drill-prompt">Model: "The tax rate in Cyprus is 12.5%."</div>
+        <div class="drill-client">Now say it for: Hungary / 9%</div>
+        <div class="drill-client">Now say it for: Estonia / 0% on undistributed profit</div>
+        <div class="drill-client">Now say it for: Hong Kong / 0% on offshore income</div>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 2 — Make it Present Perfect</div>
+      <div class="info-box" style="margin-bottom:14px"><p>Transform the sentence. Say it out loud.</p></div>
+      <div class="drill-item">
+        <div class="drill-prompt">"We register companies." →</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"We have registered over 11,000 companies."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-prompt">"I send the quote." →</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"I have already sent you the quote."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-prompt">"Our clients come back." →</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"Our clients have come back for their second and third company."</div>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 3 — Complete the conditional</div>
+      <div class="info-box" style="margin-bottom:14px"><p>Finish the sentence naturally. Say it out loud. Then check the example answer.</p></div>
+      <div class="drill-item">
+        <div class="drill-prompt">"If you need privacy, we ___"</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"...can arrange a nominee director — your name appears nowhere publicly."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-prompt">"If your deal closes in 3 weeks, we ___"</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"...should move quickly — registration takes 3–5 business days once we start."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-prompt">"If you prefer to do everything remotely, we ___"</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"...recommend an EMI account — fully remote, opens in 2 weeks."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Roleplay with teacher</div>
+    <div class="roleplay-box">
+      <div class="roleplay-header">
+        <div class="roleplay-title">Client: Ahmad Al-Rashidi</div>
+        <div class="roleplay-tag">Grammar focus</div>
+      </div>
+      <div class="roleplay-body">
+        <div class="client-card">
+          <div class="client-card-title">Teacher plays the client</div>
+          <div class="client-info">
+            <strong>Name:</strong> Ahmad Al-Rashidi<br>
+            <strong>Location:</strong> Saudi Arabia, based in Dubai<br>
+            <strong>Business:</strong> Trading company, works with China<br>
+            <strong>Wants:</strong> A company in Hong Kong, not sure about banking<br>
+            <strong>Timeline:</strong> Has a supplier meeting in 6 weeks
+          </div>
+        </div>
+        <div class="task-title">Your task as manager</div>
+        <ul class="task-list">
+          <li>Use Present Simple to explain how Hong Kong taxation works</li>
+          <li>Use Present Perfect to show Prifinance's experience</li>
+          <li>Use First Conditional to create urgency around the 6-week deadline</li>
+        </ul>
+        <div class="debrief">
+          <div class="debrief-title">Debrief questions</div>
+          <div class="debrief-q">Did you explain territorial taxation clearly in simple English?</div>
+          <div class="debrief-q">Did you use "have registered" or "have worked with" at least once?</div>
+          <div class="debrief-q">Did you connect the 6-week deadline to a conditional?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Homework</div>
+    <div class="hw-box">
+      <div class="hw-title">Write 6 sentences — 2 in each grammar pattern — about your most common client situation.</div>
+      <div class="hw-item">2 x Present Simple: facts about a jurisdiction you often recommend</div>
+      <div class="hw-item">2 x Present Perfect: Prifinance experience relevant to that client</div>
+      <div class="hw-item">2 x First Conditional: an offer or urgency point for that client</div>
+      <div class="hw-item" style="color:#4a5568; margin-top:8px">Bring the sentences to the next lesson. Teacher will check and correct.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== LESSON 2 ======== -->
+<div class="lesson" id="lesson-1">
+  <div class="lesson-title">Lesson 2 — Opening &amp; Qualification</div>
+  <div class="lesson-subtitle">How to start a call and ask the right questions — the most important part of any call</div>
+
+  <div class="section">
+    <div class="section-label">Vocabulary — 8 key phrases</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-word">to qualify a client</div>
+        <div class="vocab-def">To ask questions to understand what the client really needs before making a recommendation.</div>
+        <div class="vocab-example">"I need 2 minutes to qualify you — then I give you the right setup."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">inbound</div>
+        <div class="vocab-def">The client contacted you first.</div>
+        <div class="vocab-example">"Thanks for reaching out — happy to help."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">cold call</div>
+        <div class="vocab-def">You call the client first — they didn't expect it.</div>
+        <div class="vocab-example">"I noticed you work internationally and thought it might be relevant."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to mirror</div>
+        <div class="vocab-def">To repeat back what the client said — shows you listened.</div>
+        <div class="vocab-example">"So you're doing IT consulting — clients in Europe. Got it."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">nominee service</div>
+        <div class="vocab-def">We provide a local director/shareholder so the client's name is not public.</div>
+        <div class="vocab-example">"We handle that with a nominee service — your name appears nowhere."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">proof of address</div>
+        <div class="vocab-def">A document showing where you live — utility bill or bank statement.</div>
+        <div class="vocab-example">"We need a passport and proof of address to start."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to relocate</div>
+        <div class="vocab-def">To move yourself or your business to another country.</div>
+        <div class="vocab-example">"Are you also thinking about relocating — or is this just for the company?"</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">lead time</div>
+        <div class="vocab-def">The time needed before a deadline — registration, banking, etc.</div>
+        <div class="vocab-example">"Registration takes 2 weeks — we need to factor in that lead time."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Opening — Cold call</div>
+    <div class="info-box"><p><strong>Goal:</strong> Build trust and get permission to ask questions. Don't pitch the product — pitch the conversation.</p></div>
+    <div class="card">
+      <div class="card-title">Step by step</div>
+      <ul class="phrase-list">
+        <li>"Hi [Name], this is [Your Name] from Prifinance."
+          <div class="phrase-note">Name + company. No "is it convenient?" — it gives them an easy exit.</div>
+        </li>
+        <li>"We help international businesses register companies and open bank accounts — Europe, Asia, offshore. 28 years in the market, 11,000+ clients."
+          <div class="phrase-note">One sentence. Keep it short.</div>
+        </li>
+        <li>"I noticed [you work internationally / you're expanding] and thought it might be relevant."
+          <div class="phrase-note">Why you're calling. Make it about them, not you.</div>
+        </li>
+        <li>"Before I walk you through anything — can I ask you a couple of quick questions? It'll make sure I give you the right setup, not a generic one."
+          <div class="phrase-note">Ask for permission. This works very well — it shows respect and creates trust.</div>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">If client immediately asks for price</div>
+      <ul class="phrase-list">
+        <li>"Absolutely — I just need 2 minutes to understand your setup, otherwise I'll quote you the wrong package. It'll be worth it."
+          <div class="phrase-note">Never give price before qualifying. Polite but firm.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Opening — Inbound</div>
+    <div class="card">
+      <div class="card-title">When the client contacted you first</div>
+      <ul class="phrase-list">
+        <li>"Hi [Name], thanks for reaching out to Prifinance."</li>
+        <li>"I'm [Your Name] — happy to help you find the right solution."</li>
+        <li>"To make sure I point you in the best direction, could I ask a couple of quick questions about what you're looking to set up?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Qualification — 5 questions</div>
+    <div class="info-box"><p><strong>Important:</strong> This is not an interview. After each answer — react. Show you understood. Then ask the next question.</p></div>
+
+    <div class="card">
+      <div class="card-title">Q1 — Business and activity</div>
+      <div class="card-desc">
+        <em>"What type of business are you running — or planning to run? And where are your main clients or partners located?"</em>
+        <br><br>
+        <strong>Why:</strong> Determines the right jurisdiction and contract structure.<br>
+        <strong>React:</strong> "So you're doing [X] — clients in [Y]. Got it. That's exactly the setup we work with regularly."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q2 — Privacy</div>
+      <div class="card-desc">
+        <em>"Is privacy important to you — do you mind if your name appears publicly as director and shareholder?"</em>
+        <br><br>
+        <strong>Why:</strong> In most jurisdictions (HK, UK, EU) the registry is public. If privacy matters — nominee service is needed. Changes the price.<br>
+        <strong>React (if yes):</strong> "No problem — we handle that with a nominee director and shareholder. Your name appears nowhere publicly. You stay in full control through a Trust Declaration and Power of Attorney."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q3 — Banking</div>
+      <div class="card-desc">
+        <em>"Do you need a bank account as well? And what currencies do you mainly work in — USD, EUR, local currency?"</em>
+        <br><br>
+        <strong>Why:</strong> Banking is usually the client's main pain point. Currency determines which bank to recommend.<br>
+        <strong>React:</strong> "Good to know — that actually changes which banking option I'd recommend for you."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q4 — Remote or visit?</div>
+      <div class="card-desc">
+        <em>"Are you comfortable with a short trip — say 1–2 days — if needed for the bank? Or does everything need to be fully remote?"</em>
+        <br><br>
+        <strong>Why:</strong> Chouzhou Bank (China) requires a 1–2 day visit. If remote only — EMI or online bank.<br>
+        <strong>React (if remote):</strong> "No problem — we have two fully remote options that work just as well."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q5 — Timeline</div>
+      <div class="card-desc">
+        <em>"Is there a specific timeline you're working towards — a supplier contract, a payment coming in, a launch date?"</em>
+        <br><br>
+        <strong>Why:</strong> Urgency is your main tool for closing. A deadline turns "I'll think about it" into action.<br>
+        <strong>React (if yes):</strong> "Then we should move quickly — registration takes 2–3 weeks once we start. If your [meeting / contract] is in [X], we're actually cutting it close."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Transition to presentation</div>
+      <div class="card-desc">
+        <em>"Great — that gives me exactly what I need. Based on what you've told me, let me walk you through the setup that makes the most sense for you. I'll cover the tax structure, the company, banking, and then we'll look at the numbers."</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Speaking Drills</div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 1 — React to the answer (say it out loud)</div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "Yes, privacy is very important to me."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"No problem — we handle that with a nominee director and shareholder. Your name appears nowhere publicly. You stay in full control through a Trust Declaration and Power of Attorney. I'll cover how that works in a minute."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "I need to do everything remotely — I can't travel."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"No problem — we have two fully remote options that work just as well. I'll recommend the best one for your situation."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "I need the company in 3 weeks — I have a supplier meeting."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"Then we should move quickly — registration takes 3–5 business days once we start, but we need your documents first. If your meeting is in 3 weeks, we're actually cutting it close. Let's go through the setup and get moving."</div>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 2 — Ask all 5 questions without looking at the script</div>
+      <div class="drill-prompt">Ask your teacher all 5 qualification questions naturally. React after each answer. The goal is conversation — not an interview.</div>
+      <div style="margin-top:12px; font-size:12px; color:#4a5568; line-height:1.8">
+        Q1 → Business type and client locations<br>
+        Q2 → Privacy<br>
+        Q3 → Bank account and currencies<br>
+        Q4 → Remote or visit<br>
+        Q5 → Timeline / deadline
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Roleplay with teacher</div>
+    <div class="roleplay-box">
+      <div class="roleplay-header">
+        <div class="roleplay-title">Client: Ali Abbas</div>
+        <div class="roleplay-tag">Full opening + qualification</div>
+      </div>
+      <div class="roleplay-body">
+        <div class="client-card">
+          <div class="client-card-title">Teacher plays the client</div>
+          <div class="client-info">
+            <strong>Name:</strong> Ali Abbas<br>
+            <strong>Nationality:</strong> Pakistani, living in Qatar<br>
+            <strong>Business:</strong> Import/export, partners in Europe and UAE<br>
+            <strong>Wants:</strong> A company in Serbia — heard it's cheap and has EU access<br>
+            <strong>Privacy:</strong> Yes, wants to keep his name private<br>
+            <strong>Banking:</strong> Needs EUR and USD, prefers fully remote<br>
+            <strong>Timeline:</strong> "As soon as possible — I have a contract to sign next month"<br>
+            <strong>Objection:</strong> "Can you just tell me the price?"
+          </div>
+        </div>
+        <div class="task-title">Your task</div>
+        <ul class="task-list">
+          <li>Do the inbound opening (he contacted you first)</li>
+          <li>Handle the price question before qualifying</li>
+          <li>Ask all 5 qualification questions with reactions</li>
+          <li>End with the transition phrase to presentation</li>
+        </ul>
+        <div class="debrief">
+          <div class="debrief-title">Debrief questions</div>
+          <div class="debrief-q">Did you react after each answer — or just move to the next question?</div>
+          <div class="debrief-q">Did you handle the price question without giving a price?</div>
+          <div class="debrief-q">Did you pick up on the 1-month deadline and use it?</div>
+          <div class="debrief-q">Did the conversation feel natural?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Homework</div>
+    <div class="hw-box">
+      <div class="hw-title">Record yourself doing a full opening + qualification (cold call version).</div>
+      <div class="hw-item">Use a real client scenario from your work this week</div>
+      <div class="hw-item">Listen back: did you react after each answer?</div>
+      <div class="hw-item">Count how many times you went silent. Replace pauses with: "Good to know", "That makes sense", "Got it"</div>
+      <div class="hw-item">Write 2 things you want to improve before the next lesson</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== LESSON 3 ======== -->
+<div class="lesson" id="lesson-2">
+  <div class="lesson-title">Lesson 3 — Objections &amp; Closing</div>
+  <div class="lesson-subtitle">How to handle "no" and turn it into "yes" — and how to close every call with a clear next step</div>
+
+  <div class="section">
+    <div class="section-label">Vocabulary — 8 key phrases</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-word">to stage it</div>
+        <div class="vocab-def">To split a purchase into steps — company first, bank account later.</div>
+        <div class="vocab-example">"Let's stage it — start with just the company, bank is a separate step."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to lean towards</div>
+        <div class="vocab-def">To prefer or recommend something specific.</div>
+        <div class="vocab-example">"Based on what you told me, I'd lean towards Estonia. Here's why."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to factor in</div>
+        <div class="vocab-def">To include something in your planning.</div>
+        <div class="vocab-example">"We need to factor in the 2-week registration time."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">onboarding form</div>
+        <div class="vocab-def">The document we send to start the process.</div>
+        <div class="vocab-example">"I can send you the onboarding form right now. Shall we do that?"</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to reconnect</div>
+        <div class="vocab-def">To speak again after a break.</div>
+        <div class="vocab-example">"When's a good time to reconnect — say, next week?"</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">worth keeping in mind</div>
+        <div class="vocab-def">Something important to remember.</div>
+        <div class="vocab-example">"One thing worth keeping in mind — registration takes 2 weeks."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">formal quote</div>
+        <div class="vocab-def">A written document with the full price breakdown.</div>
+        <div class="vocab-example">"Let me send you a formal quote — takes me about an hour."</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-word">to summarise</div>
+        <div class="vocab-def">To repeat the key points before closing.</div>
+        <div class="vocab-example">"So to summarise: Estonia company, EMI account, total around €3,300."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Closing — 3 types</div>
+    <div class="info-box"><p><strong>Rule:</strong> Every call ends with a clear next step. No next step = lost deal.</p></div>
+
+    <div class="card">
+      <div class="card-title">Always summarise before closing</div>
+      <div class="card-desc">
+        <em>"So to summarise: you'd register [company type] in [country] — [remote / requires visit], takes [timeline]. [Tax benefit] because of [reason]. For banking, we go with [option] — ready in [timeline]. Total to be fully operational: around [price]."</em>
+        <br><br>
+        This shows you listened. It makes the decision feel simple.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Soft close — client is warm but not ready to pay now</div>
+      <div class="card-desc">
+        <em>"Let me send you a formal quote with the full breakdown — takes me about an hour. What's the best email for you?"</em>
+        <br><br>
+        Low pressure. You get the email. You stay in contact.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Hard close — client is ready</div>
+      <div class="card-desc">
+        <em>"Great — to move forward I just need your passport copy, proof of address, and three company name options. I can send you the onboarding form right now. Shall we do that?"</em>
+        <br><br>
+        Clear and direct. "Shall we do that?" is a simple yes/no — not aggressive, just confident.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Not ready — keep the relationship</div>
+      <div class="card-desc">
+        <em>"No problem. I'll send you a summary of everything we discussed. When's a good time to reconnect — say, in a week?"</em>
+        <br><br>
+        Always get a specific date for the next call. "I'll think about it" without a date = lost lead.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Objection Handling</div>
+    <div class="info-box"><p><strong>Remember:</strong> Most objections are not "no" — they are "I'm not sure yet." Your job is to find what's missing and fill that gap.</p></div>
+
+    <div class="objection-card">
+      <div class="obj-trigger" onclick="toggleObj(this)">
+        <div class="obj-text">"It's too expensive."</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">"Let's stage it. Start with just the company — €1,400. You're registered, you can sign contracts and issue invoices. Bank account is a separate step.<br><br>If you go with the remote EMI option, total is around €3,300 — and that's everything you need to be fully operational. You don't need to do it all at once."</div>
+        <div class="obj-note">Key move: split the cost into stages. Make it feel smaller and more manageable.</div>
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <div class="obj-trigger" onclick="toggleObj(this)">
+        <div class="obj-text">"I need to think about it."</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">"Of course — take the time you need.<br><br>One thing worth keeping in mind: registration takes 2–3 weeks once we start. Do you have any supplier meetings or contracts coming up where you'll need the company ready?<br><br>If there's a date, we need to factor in that lead time."</div>
+        <div class="obj-note">Key move: find a deadline. A real deadline turns "I'll think" into action.</div>
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <div class="obj-trigger" onclick="toggleObj(this)">
+        <div class="obj-text">"I'm comparing you with other providers."</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">"That makes sense — you should compare.<br><br>A few things worth checking with any provider: Do they use nominees from the actual jurisdiction? Do they have direct banking relationships, or just introductions? And what happens if something goes wrong after setup?<br><br>We've been in this since 1997. Our clients come back for the second and third company. That's the benchmark I'd suggest."</div>
+        <div class="obj-note">Key move: give them specific questions to ask competitors — questions you know you win on.</div>
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <div class="obj-trigger" onclick="toggleObj(this)">
+        <div class="obj-text">"Can I do it myself / cheaper?"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">"You can — the registry process is technically public.<br><br>But what people don't anticipate: the nominee arrangements, banking compliance, apostille chains, and ongoing filings. We've done this hundreds of times across 30+ jurisdictions.<br><br>The difference is we know what banks actually accept and what gets applications rejected — and we handle the parts that get stuck."</div>
+        <div class="obj-note">Key move: acknowledge it's possible, then show the hidden complexity they haven't thought about.</div>
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <div class="obj-trigger" onclick="toggleObj(this)">
+        <div class="obj-text">"I'm not sure which jurisdiction is right."</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">"That's exactly why I'm here — let's figure it out together.<br><br>It comes down to three things: where your clients are, where you want to bank, and how much tax efficiency matters to you.<br><br>Based on what you told me — [repeat facts from qualification] — I'd lean towards [jurisdiction]. Here's why..."</div>
+        <div class="obj-note">Key move: never say "all options are equally good." Make a specific recommendation — this builds trust.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Speaking Drills</div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 1 — Respond to objections out loud</div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "€3,900 is too much for us right now."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"Let's stage it. Start with just the company — €1,400. You're registered, you can sign contracts and invoice clients. Bank account is a separate step. Total with remote EMI is around €3,300 — you don't need to do it all at once."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "I want to think about it for a week."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"Of course. One thing worth keeping in mind — registration takes 2–3 weeks once we start. Do you have any contracts or meetings coming up where you'll need the company ready? If there's a date, we need to factor in that lead time."</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Client: "I'm looking at two other providers right now."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Show answer</button>
+        <div class="drill-answer">"That makes sense — you should compare. A few things worth checking: do they use nominees from the actual jurisdiction? Do they have direct banking relationships? We've been doing this since 1997 — our clients come back for their second and third company."</div>
+      </div>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">Drill 2 — Choose the right close</div>
+      <div class="drill-prompt">Teacher describes the client's mood. You choose and deliver the right closing type.</div>
+      <div class="drill-item" style="margin-top:12px">
+        <div class="drill-client">Situation A: Client asked about price twice and said "this sounds good."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Which close?</button>
+        <div class="drill-answer">Hard close: "Great — to move forward I just need passport copy, proof of address, and three company name options. Shall I send you the onboarding form right now?"</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Situation B: Client said "send me something to review."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Which close?</button>
+        <div class="drill-answer">Soft close: "Let me send you a formal quote with the full breakdown. What's the best email for you?"</div>
+      </div>
+      <div class="drill-item">
+        <div class="drill-client">Situation C: Client said "I need to talk to my partner first."</div>
+        <button class="show-btn" onclick="toggleAnswer(this)">Which close?</button>
+        <div class="drill-answer">Not ready close: "No problem. I'll send you a summary of everything we discussed. When's a good time to reconnect — say, in a week?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Roleplay with teacher — Full call</div>
+    <div class="roleplay-box">
+      <div class="roleplay-header">
+        <div class="roleplay-title">Client: Gilles — French resident</div>
+        <div class="roleplay-tag">Full call: opening → qualification → objections → close</div>
+      </div>
+      <div class="roleplay-body">
+        <div class="client-card">
+          <div class="client-card-title">Teacher plays the client</div>
+          <div class="client-info">
+            <strong>Name:</strong> Gilles, French resident<br>
+            <strong>Situation:</strong> Wants to protect his yacht and a property in Portugal. Looking at asset protection structures.<br>
+            <strong>Comparing:</strong> BVI (closed registry, offshore) vs Estonia (open registry, European)<br>
+            <strong>Concern 1:</strong> "This seems expensive."<br>
+            <strong>Concern 2:</strong> "I'm looking at another provider."<br>
+            <strong>Mood:</strong> Interested but cautious. Not sure about the difference between the options.<br>
+            <strong>Key fact:</strong> Needs to buy the boat in 3–4 weeks.
+          </div>
+        </div>
+        <div class="task-title">Your task</div>
+        <ul class="task-list">
+          <li>Open the call (inbound — he wrote to you)</li>
+          <li>Qualify: find out what matters more — privacy or European structure</li>
+          <li>Explain the difference between BVI and Estonia simply and clearly</li>
+          <li>Handle both objections</li>
+          <li>Use the 3-week deadline to create urgency</li>
+          <li>Close the call with a clear next step</li>
+        </ul>
+        <div class="debrief">
+          <div class="debrief-title">Debrief questions</div>
+          <div class="debrief-q">Did you find his main priority — privacy or European structure?</div>
+          <div class="debrief-q">Did you explain BVI vs Estonia in simple English — no jargon?</div>
+          <div class="debrief-q">Did you handle the cost objection by staging the payment?</div>
+          <div class="debrief-q">Did you connect the 3-week boat purchase to urgency?</div>
+          <div class="debrief-q">What close did you use — and was it the right one?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Homework</div>
+    <div class="hw-box">
+      <div class="hw-title">Roleplay the objection section with your teacher — one objection at a time.</div>
+      <div class="hw-item">Teacher gives you one objection. You respond. Teacher rates: 1) Did it address the concern? 2) Did it sound natural? 3) Did it move toward closing?</div>
+      <div class="hw-item">Write your own version of each objection response in your own words — not memorised, but natural</div>
+      <div class="hw-item">Pick one real call from this week. What objection came up? How did you handle it? Could you have done it better?</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showLesson(index) {
+  document.querySelectorAll('.lesson').forEach(function(l, i) {
+    l.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.tab').forEach(function(t, i) {
+    t.classList.toggle('active', i === index);
+  });
+}
+
+function toggleAnswer(btn) {
+  var answer = btn.nextElementSibling;
+  if (answer.style.display === 'block') {
+    answer.style.display = 'none';
+    btn.textContent = 'Show answer';
+  } else {
+    answer.style.display = 'block';
+    btn.textContent = 'Hide';
+  }
+}
+
+function toggleObj(trigger) {
+  var body = trigger.nextElementSibling;
+  var arrow = trigger.querySelector('.obj-arrow');
+  body.classList.toggle('open');
+  arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+</script>
+</body>
+</html>
